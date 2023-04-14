@@ -28,6 +28,7 @@ namespace API.Data
         public DbSet<FAQ> FAQs { get; set; }
         public DbSet<Inventory> Inventories { get; set; }
         public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderStatus> OrderStatuses { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<OrderPayment> OrderPayments { get; set; }
         public DbSet<Refund> Refunds { get; set; }
