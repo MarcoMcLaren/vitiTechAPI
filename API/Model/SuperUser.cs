@@ -36,5 +36,6 @@ namespace API.Model
         public string ID_Number { get; set; }
 
         public DateTime Hire_Date { get; set; }
+
     }
 }

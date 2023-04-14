@@ -57,5 +57,14 @@ namespace API.Data
         public DbSet<WriteOffItem> WriteOffItems { get; set; }
         public DbSet<WriteOff_Reason> WriteOffReasons { get; set; }
 
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Wine>()
+            .HasOne(w => w.WinePrice)
+            .WithOne(wp => wp.Wine)
+            .HasForeignKey<WinePrice>(wp => wp.WineID);
+
+        }
     }
 }

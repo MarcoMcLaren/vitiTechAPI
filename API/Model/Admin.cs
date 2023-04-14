@@ -8,10 +8,6 @@ namespace API.Model
         [Key]
         public int AdminID { get; set; }
 
-        [ForeignKey("SuperUserID")]
-        public int SuperUserID { get; set; }
-        public SuperUser SuperUser { get; set; }
-
         [ForeignKey("UserID")]
         public int UserID { get; set; }
         public User User { get; set; }
@@ -40,5 +36,6 @@ namespace API.Model
         public long ID_Number { get; set; }
 
         public DateTime Hire_Date { get; set; }
+
     }
 }
