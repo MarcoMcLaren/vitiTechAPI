@@ -87,6 +87,41 @@ namespace API.Data
              .WithMany(rt => rt.RefundReasons)
              .HasForeignKey(rr => rr.RefundTypeID);
 
+            modelBuilder.Entity<Wine>()
+            .HasMany(w => w.WriteOffItems)
+            .WithOne(wi => wi.Wine)
+            .HasForeignKey(wi => wi.WineID);
+
+            modelBuilder.Entity<WriteOffItem>()
+            .HasOne<WriteOff_Reason>(w => w.WriteOff_Reason)
+            .WithOne(wr => wr.WriteOffItem)
+            .HasForeignKey<WriteOff_Reason>(wr => wr.WriteOffItemID);
+
+            modelBuilder.Entity<WriteOff>()
+            .HasMany(w => w.WriteOffItems)
+            .WithOne(wi => wi.WriteOff)
+            .HasForeignKey(wi => wi.WriteOffID);
+
+            modelBuilder.Entity<WishlistItem>()
+            .HasOne(wli => wli.Wine)
+            .WithMany(w => w.WishlistItems)
+            .HasForeignKey(wli => wli.WineID);
+
+            modelBuilder.Entity<WishlistItem>()
+            .HasOne(wli => wli.Wishlist)
+            .WithMany(wl => wl.WishlistItems)
+            .HasForeignKey(wli => wli.WishlistID);
+
+            modelBuilder.Entity<Wishlist>()
+            .HasOne(wl => wl.Customer)
+            .WithOne(c => c.Wishlist)
+            .HasForeignKey<Wishlist>(wl => wl.CustomerID);
+
+            modelBuilder.Entity<Wine>()
+            .HasOne(a => a.Admin)
+            .WithMany(w => w.Wines)
+            .HasForeignKey(a => a.AdminID);
+
             base.OnModelCreating(modelBuilder);
         }
 

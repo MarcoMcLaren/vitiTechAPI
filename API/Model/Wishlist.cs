@@ -8,5 +8,10 @@ namespace API.Model
         [Key]
         public int WishlistID { get; set; }
 
+        [ForeignKey("CustomerID")]
+        public int CustomerID { get; set; }
+        public Customer Customer { get; set; }
+
+        public List<WishlistItem> WishlistItems { get; set; }
     }
 }

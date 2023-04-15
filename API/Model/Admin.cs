@@ -23,5 +23,7 @@ namespace API.Model
         public long ID_Number { get; set; }
 
         public DateTime Hire_Date { get; set; }
+
+        public List<Wine> Wines { get; set; }
     }
 }

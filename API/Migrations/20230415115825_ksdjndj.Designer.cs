@@ -4,6 +4,7 @@ using API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    partial class MyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230415115825_ksdjndj")]
+    partial class ksdjndj
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -874,9 +877,6 @@ namespace API.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("WineID"));
 
-                    b.Property<int>("AdminID")
-                        .HasColumnType("int");
-
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
@@ -908,8 +908,6 @@ namespace API.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("WineID");
-
-                    b.HasIndex("AdminID");
 
                     b.HasIndex("VarietalID");
 
@@ -998,13 +996,7 @@ namespace API.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("WishlistID"));
 
-                    b.Property<int>("CustomerID")
-                        .HasColumnType("int");
-
                     b.HasKey("WishlistID");
-
-                    b.HasIndex("CustomerID")
-                        .IsUnique();
 
                     b.ToTable("Wishlists");
                 });
@@ -1208,12 +1200,6 @@ namespace API.Migrations
 
             modelBuilder.Entity("API.Model.Wine", b =>
                 {
-                    b.HasOne("API.Model.Admin", "Admin")
-                        .WithMany("Wines")
-                        .HasForeignKey("AdminID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("API.Model.Varietal", "Varietal")
                         .WithMany("Wines")
                         .HasForeignKey("VarietalID")
@@ -1225,8 +1211,6 @@ namespace API.Migrations
                         .HasForeignKey("WineTypeID")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
-
-                    b.Navigation("Admin");
 
                     b.Navigation("Varietal");
 
@@ -1261,17 +1245,6 @@ namespace API.Migrations
                         .IsRequired();
 
                     b.Navigation("Wine");
-                });
-
-            modelBuilder.Entity("API.Model.Wishlist", b =>
-                {
-                    b.HasOne("API.Model.Customer", "Customer")
-                        .WithOne("Wishlist")
-                        .HasForeignKey("API.Model.Wishlist", "CustomerID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Customer");
                 });
 
             modelBuilder.Entity("API.Model.WishlistItem", b =>
@@ -1321,16 +1294,6 @@ namespace API.Migrations
                         .IsRequired();
 
                     b.Navigation("WriteOffItem");
-                });
-
-            modelBuilder.Entity("API.Model.Admin", b =>
-                {
-                    b.Navigation("Wines");
-                });
-
-            modelBuilder.Entity("API.Model.Customer", b =>
-                {
-                    b.Navigation("Wishlist");
                 });
 
             modelBuilder.Entity("API.Model.Discount", b =>

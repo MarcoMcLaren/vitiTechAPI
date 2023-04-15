@@ -31,9 +31,15 @@ namespace API.Model
         public int OrderItemID { get; set; }
         public OrderItem OrderItem { get; set; }
 
+        [ForeignKey("AdminID")]
+        public int AdminID { get; set; }
+        public Admin Admin { get; set; }
+
         public List<Inventory> Inventories { get; set; }
         public List<WineDiscount> WineDiscounts { get; set; }
         public List<SupplierOrder> SupplierOrders { get; set; }
+        public List<WriteOffItem> WriteOffItems { get; set; }
+        public List<WishlistItem> WishlistItems { get; set; }
 
     }
 }

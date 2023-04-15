@@ -33,5 +33,7 @@ namespace API.Model
         public DateTime Date_Created { get; set; }
 
         public DateTime Date_of_last_update { get; set; }
+
+        public Wishlist Wishlist { get; set; }
     }
 }

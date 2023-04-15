@@ -9,5 +9,7 @@ namespace API.Model
         public int WriteOffID { get; set; }
 
         public DateTime WriteOff_Date { get; set; }
+
+        public List<WriteOffItem> WriteOffItems { get; set; }
     }
 }
