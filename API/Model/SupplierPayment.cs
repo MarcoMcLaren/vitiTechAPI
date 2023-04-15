@@ -8,12 +8,12 @@ namespace API.Model
         [Key]
         public int SupplierPaymentID { get; set; }
 
-        [ForeignKey("SupplierOrderID")]
-        public int SupplierOrderID { get; set; }
-        public SupplierOrder SupplierOrder { get; set; }
-
         public double AmountPaid { get; set; }
 
         public DateTime Date { get; set; }
+
+        [ForeignKey("SupplierOrderID")]
+        public int SupplierOrderID { get; set; }
+        public SupplierOrder SupplierOrder { get; set; }
     }
 }

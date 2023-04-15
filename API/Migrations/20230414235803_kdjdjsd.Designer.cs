@@ -4,6 +4,7 @@ using API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    partial class MyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230414235803_kdjdjsd")]
+    partial class kdjdjsd
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -469,13 +472,7 @@ namespace API.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.Property<int>("WineID")
-                        .HasColumnType("int");
-
                     b.HasKey("OrderItemID");
-
-                    b.HasIndex("WineID")
-                        .IsUnique();
 
                     b.ToTable("OrderItems");
                 });
@@ -720,20 +717,7 @@ namespace API.Migrations
                     b.Property<int>("Quantity_Ordered")
                         .HasColumnType("int");
 
-                    b.Property<int>("SupplierID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SupplierPaymentID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("WineID")
-                        .HasColumnType("int");
-
                     b.HasKey("SupplierOrderID");
-
-                    b.HasIndex("SupplierID");
-
-                    b.HasIndex("WineID");
 
                     b.ToTable("SupplierOrders");
                 });
@@ -752,13 +736,7 @@ namespace API.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("SupplierOrderID")
-                        .HasColumnType("int");
-
                     b.HasKey("SupplierPaymentID");
-
-                    b.HasIndex("SupplierOrderID")
-                        .IsUnique();
 
                     b.ToTable("SupplierPayments");
                 });
@@ -860,23 +838,11 @@ namespace API.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("OrderItemID")
-                        .HasColumnType("int");
-
                     b.Property<int>("Restock_Limit")
-                        .HasColumnType("int");
-
-                    b.Property<int>("VarietalID")
                         .HasColumnType("int");
 
                     b.Property<string>("Vintage")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("WinePriceID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("WineTypeID")
-                        .HasColumnType("int");
 
                     b.Property<string>("WinetastingNote")
                         .HasColumnType("nvarchar(max)");
@@ -885,10 +851,6 @@ namespace API.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("WineID");
-
-                    b.HasIndex("VarietalID");
-
-                    b.HasIndex("WineTypeID");
 
                     b.ToTable("Wines");
                 });
@@ -933,13 +895,7 @@ namespace API.Migrations
                     b.Property<double>("Price")
                         .HasColumnType("float");
 
-                    b.Property<int>("WineID")
-                        .HasColumnType("int");
-
                     b.HasKey("WinePriceID");
-
-                    b.HasIndex("WineID")
-                        .IsUnique();
 
                     b.ToTable("WinePrices");
                 });
@@ -1052,17 +1008,6 @@ namespace API.Migrations
                     b.Navigation("Wine");
                 });
 
-            modelBuilder.Entity("API.Model.OrderItem", b =>
-                {
-                    b.HasOne("API.Model.Wine", "Wine")
-                        .WithOne("OrderItem")
-                        .HasForeignKey("API.Model.OrderItem", "WineID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Wine");
-                });
-
             modelBuilder.Entity("API.Model.StockTake_Item", b =>
                 {
                     b.HasOne("API.Model.Inventory", null)
@@ -1076,55 +1021,6 @@ namespace API.Migrations
                         .IsRequired();
 
                     b.Navigation("StockTake");
-                });
-
-            modelBuilder.Entity("API.Model.SupplierOrder", b =>
-                {
-                    b.HasOne("API.Model.Supplier", "Supplier")
-                        .WithMany("SupplierOrders")
-                        .HasForeignKey("SupplierID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("API.Model.Wine", "Wine")
-                        .WithMany("SupplierOrders")
-                        .HasForeignKey("WineID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Supplier");
-
-                    b.Navigation("Wine");
-                });
-
-            modelBuilder.Entity("API.Model.SupplierPayment", b =>
-                {
-                    b.HasOne("API.Model.SupplierOrder", "SupplierOrder")
-                        .WithOne("SupplierPayment")
-                        .HasForeignKey("API.Model.SupplierPayment", "SupplierOrderID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("SupplierOrder");
-                });
-
-            modelBuilder.Entity("API.Model.Wine", b =>
-                {
-                    b.HasOne("API.Model.Varietal", "Varietal")
-                        .WithMany("Wines")
-                        .HasForeignKey("VarietalID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("API.Model.WineType", "WineType")
-                        .WithMany("Wines")
-                        .HasForeignKey("WineTypeID")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Varietal");
-
-                    b.Navigation("WineType");
                 });
 
             modelBuilder.Entity("API.Model.WineDiscount", b =>
@@ -1146,17 +1042,6 @@ namespace API.Migrations
                     b.Navigation("Wine");
                 });
 
-            modelBuilder.Entity("API.Model.WinePrice", b =>
-                {
-                    b.HasOne("API.Model.Wine", "Wine")
-                        .WithOne("WinePrice")
-                        .HasForeignKey("API.Model.WinePrice", "WineID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Wine");
-                });
-
             modelBuilder.Entity("API.Model.Discount", b =>
                 {
                     b.Navigation("WineDiscounts");
@@ -1172,37 +1057,11 @@ namespace API.Migrations
                     b.Navigation("StockTake_Items");
                 });
 
-            modelBuilder.Entity("API.Model.Supplier", b =>
-                {
-                    b.Navigation("SupplierOrders");
-                });
-
-            modelBuilder.Entity("API.Model.SupplierOrder", b =>
-                {
-                    b.Navigation("SupplierPayment");
-                });
-
-            modelBuilder.Entity("API.Model.Varietal", b =>
-                {
-                    b.Navigation("Wines");
-                });
-
             modelBuilder.Entity("API.Model.Wine", b =>
                 {
                     b.Navigation("Inventories");
 
-                    b.Navigation("OrderItem");
-
-                    b.Navigation("SupplierOrders");
-
                     b.Navigation("WineDiscounts");
-
-                    b.Navigation("WinePrice");
-                });
-
-            modelBuilder.Entity("API.Model.WineType", b =>
-                {
-                    b.Navigation("Wines");
                 });
 #pragma warning restore 612, 618
         }

@@ -8,10 +8,6 @@ namespace API.Model
         [Key]
         public int PaymentID { get; set; }
 
-        [ForeignKey("BookingID")]
-        public int BookingID { get; set; }
-        public Booking Booking { get; set; }
-
         public double PaymentAmount { get; set; }
 
         public DateTime PaymentDate { get; set; }

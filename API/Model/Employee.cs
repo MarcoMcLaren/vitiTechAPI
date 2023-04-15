@@ -8,10 +8,6 @@ namespace API.Model
         [Key]
         public int EmployeeID { get; set; }
 
-        [ForeignKey("AdminID")]
-        public int AdminID { get; set; }
-        public Admin Admin { get; set; }
-
         [MaxLength(50)]
         public string First_Name { get; set; }
 

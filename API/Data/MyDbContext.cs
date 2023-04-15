@@ -8,27 +8,87 @@ namespace API.Data
         public MyDbContext(DbContextOptions<MyDbContext> options) : base(options)
         {
         }
-        public DbSet<Address> Addresses { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<StockTake_Item>()
+             .HasOne(si => si.StockTake)
+             .WithMany(st => st.StockTake_Items)
+             .HasForeignKey(si => si.StockTakeID);
+
+            modelBuilder.Entity<Inventory>()
+            .HasOne<Wine>(i => i.Wine)
+            .WithMany(w => w.Inventories)
+            .HasForeignKey(i => i.WineID);
+
+            modelBuilder.Entity<Wine>()
+            .HasMany(w => w.WineDiscounts)
+            .WithOne(wd => wd.Wine)
+            .HasForeignKey(wd => wd.WineID);
+
+            modelBuilder.Entity<WineDiscount>()
+            .HasOne<Discount>(wd => wd.Discount)
+            .WithMany(d => d.WineDiscounts)
+            .HasForeignKey(wd => wd.DiscountID);
+
+            modelBuilder.Entity<Wine>()
+            .HasMany(s => s.SupplierOrders)
+            .WithOne(w => w.Wine)
+            .HasForeignKey(w => w.WineID);
+
+            modelBuilder.Entity<SupplierOrder>()
+            .HasOne<Supplier>(so => so.Supplier)
+            .WithMany(s => s.SupplierOrders)
+            .HasForeignKey(so => so.SupplierID);
+
+            modelBuilder.Entity<SupplierOrder>()
+             .HasOne(s => s.SupplierPayment)
+             .WithOne(sp => sp.SupplierOrder)
+             .HasForeignKey<SupplierPayment>(sp => sp.SupplierOrderID);
+
+            modelBuilder.Entity<Wine>()
+            .HasOne<WineType>(w => w.WineType)
+            .WithMany(wt => wt.Wines)
+            .HasForeignKey(w => w.WineTypeID)
+            .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Wine>()
+            .HasOne(wp => wp.WinePrice)
+            .WithOne(w => w.Wine)
+            .HasForeignKey<WinePrice>(wp => wp.WineID);
+
+            modelBuilder.Entity<Wine>()
+            .HasOne(w => w.Varietal)
+            .WithMany(v => v.Wines)
+            .HasForeignKey(w => w.VarietalID);
+
+            modelBuilder.Entity<Wine>()
+            .HasOne(o => o.OrderItem)
+            .WithOne(w => w.Wine)
+            .HasForeignKey<OrderItem>(w => w.WineID);
+
+            base.OnModelCreating(modelBuilder);
+        }
+
         public DbSet<Admin> Admins { get; set; }
-        public DbSet<Admin_Privileges> AdminPrivileges { get; set; }
         public DbSet<Blacklist> Blacklists { get; set; }
         public DbSet<Booking> Bookings { get; set; }
         public DbSet<BookingPayment> BookingPayments { get; set; }
         public DbSet<City> Cities { get; set; }
         public DbSet<Country> Countries { get; set; }
         public DbSet<Customer> Customers { get; set; }
-        public DbSet<Discount> Discounts { get; set; }
+        public DbSet<Discount> Discounts{ get; set; }
         public DbSet<EarlyBird> EarlyBirds { get; set; }
         public DbSet<Employee> Employees { get; set; }
         public DbSet<Event> Events { get; set; }
         public DbSet<EventLocation> EventLocations { get; set; }
         public DbSet<EventPrice> EventPrices { get; set; }
         public DbSet<EventType> EventTypes { get; set; }
-        public DbSet<EventReview> EventReviews { get; set; }
+        public DbSet<EventReview> EventReviews{ get; set; }
         public DbSet<FAQ> FAQs { get; set; }
         public DbSet<Inventory> Inventories { get; set; }
         public DbSet<Order> Orders { get; set; }
-        public DbSet<OrderStatus> OrderStatuses { get; set; }
+        public DbSet<OrderStatus> OrderStatus { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<OrderPayment> OrderPayments { get; set; }
         public DbSet<Refund> Refunds { get; set; }
@@ -42,7 +102,6 @@ namespace API.Data
         public DbSet<Supplier> Suppliers { get; set; }
         public DbSet<SupplierOrder> SupplierOrders { get; set; }
         public DbSet<SupplierPayment> SupplierPayments { get; set; }
-        public DbSet<SuperUser> SuperUsers { get; set; }
         public DbSet<Ticket> Tickets { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<VAT> VATs { get; set; }
@@ -56,15 +115,6 @@ namespace API.Data
         public DbSet<WriteOff> WriteOffs { get; set; }
         public DbSet<WriteOffItem> WriteOffItems { get; set; }
         public DbSet<WriteOff_Reason> WriteOffReasons { get; set; }
-
-
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<Wine>()
-            .HasOne(w => w.WinePrice)
-            .WithOne(wp => wp.Wine)
-            .HasForeignKey<WinePrice>(wp => wp.WineID);
-
-        }
+      
     }
 }

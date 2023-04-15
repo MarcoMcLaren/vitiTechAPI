@@ -8,14 +8,6 @@ namespace API.Model
         [Key]
         public int EventLocationID { get; set; }
 
-        [ForeignKey("AddressID")]
-        public int AddressID { get; set; }
-        public Address Address { get; set; }
-
-        [ForeignKey("AdminID")]
-        public int AdminID { get; set; }
-        public Admin Admin { get; set; }
-
         [MaxLength(100)]
         public string Street_Address { get; set; }
 

@@ -8,12 +8,5 @@ namespace API.Model
         [Key]
         public int WishlistItemID { get; set; }
 
-        [ForeignKey("WishlistID")]
-        public int WishlistID { get; set; }
-        public Wishlist Wishlist { get; set; }
-
-        [ForeignKey("WineID")]
-        public int WineID { get; set; }
-        public Wine Wine { get; set; }
     }
 }

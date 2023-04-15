@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace API.Model
@@ -7,14 +8,6 @@ namespace API.Model
     {
         [Key]
         public int CustomerID { get; set; }
-
-        [ForeignKey("UserID")]
-        public int UserID { get; set; }
-        public User User { get; set; }
-
-        [ForeignKey("AddressID")]
-        public int AddressID { get; set; }
-        public Address Address { get; set; }
 
         [MaxLength(50)]
         public string Title { get; set; }

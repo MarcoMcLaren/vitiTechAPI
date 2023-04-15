@@ -11,5 +11,7 @@ namespace API.Model
 
         [MaxLength(255)]
         public string StockTake_Notes { get; set; }
+
+        public ICollection<StockTake_Item> StockTake_Items { get; set; }
     }
 }

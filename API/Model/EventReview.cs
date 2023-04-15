@@ -8,14 +8,6 @@ namespace API.Model
         [Key]
         public int EventReviewID { get; set; }
 
-        [ForeignKey("EventID")]
-        public int EventID { get; set; }
-        public Event Event { get; set; }
-
-        [ForeignKey("CustomerID")]
-        public int CustomerID { get; set; }
-        public Customer Customer { get; set; }
-
         public int Rating { get; set; }
 
         [MaxLength(255)]

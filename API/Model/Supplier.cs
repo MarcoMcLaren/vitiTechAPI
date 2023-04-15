@@ -15,5 +15,7 @@ namespace API.Model
 
         [MaxLength(50)]
         public string Email { get; set; }
+
+        public List<SupplierOrder> SupplierOrders { get; set; }
     }
 }

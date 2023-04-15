@@ -14,5 +14,7 @@ namespace API.Model
         public string Discount_Type { get; set; }
 
         public double Discount_Amount { get; set; }
+
+        public List<WineDiscount> WineDiscounts { get; set; }
     }
 }

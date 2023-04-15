@@ -2,7 +2,7 @@
 
 namespace API.Model
 {
-    public class Admin_Privileges
+    public class AdminPrivileges
     {
         [Key]
         public int AdminPrivilegesID { get; set; }

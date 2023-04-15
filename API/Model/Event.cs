@@ -8,18 +8,6 @@ namespace API.Model
         [Key]
         public int EventID { get; set; }
 
-        [ForeignKey("AdminID")]
-        public int AdminID { get; set; }
-        public Admin Admin { get; set; }
-
-        [ForeignKey("EventTypeID")]
-        public int EventTypeID { get; set; }
-        public EventType EventType { get; set; }
-
-        [ForeignKey("EventLocationID")]
-        public int EventLocationID { get; set; }
-        public EventLocation EventLocation { get; set; }
-
         [MaxLength(255)]
         public string EventName { get; set; }
 

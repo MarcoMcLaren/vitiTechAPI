@@ -9,12 +9,10 @@ namespace API.Model
         public int StockTake_ItemID { get; set; }
 
         [ForeignKey("StockTakeID")]
+        [Required]
         public int StockTakeID { get; set; }
         public StockTake StockTake { get; set; }
 
-        [ForeignKey("InventoryID")]
-        public int InventoryID { get; set; }
-        public Inventory Inventory { get; set; }
 
         public int Stocktake_Difference { get; set; }
     }

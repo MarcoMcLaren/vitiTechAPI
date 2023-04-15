@@ -8,12 +8,15 @@ namespace API.Model
         [Key]
         public int InventoryID { get; set; }
 
-        [ForeignKey("WineID")]
-        public int WineID { get; set; }
-        public Wine Wine { get; set; }
-
         public int Stock_Limit { get; set; }
 
         public int Quantity_On_Hand { get; set; }
+
+        [ForeignKey("WineID")]
+        public int? WineID { get; set; }
+        public Wine Wine { get; set; }
+
+        public List<StockTake_Item> StockTake_Items { get; set; }
+
     }
 }

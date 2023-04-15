@@ -8,10 +8,6 @@ namespace API.Model
         [Key]
         public int EventPriceID { get; set; }
 
-        [ForeignKey("EventID")]
-        public int EventID { get; set; }
-        public Event Event { get; set; }
-
         public double Amount { get; set; }
     }
 }

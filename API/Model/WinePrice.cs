@@ -8,10 +8,10 @@ namespace API.Model
         [Key]
         public int WinePriceID { get; set; }
 
+        public double Price { get; set; }
+
         [ForeignKey("WineID")]
         public int WineID { get; set; }
         public Wine Wine { get; set; }
-
-        public double Price { get; set; }
     }
 }

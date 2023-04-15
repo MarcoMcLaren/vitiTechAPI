@@ -8,10 +8,6 @@ namespace API.Model
         [Key]
         public int CityID { get; set; }
 
-        [ForeignKey("RegionID")]
-        public int RegionID { get; set; }
-        public Region Region { get; set; }
-
         [MaxLength(255)]
         public string Description { get; set; }
 

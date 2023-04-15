@@ -8,6 +8,9 @@ namespace API.Model
         [Key]
         public int WineDiscountID { get; set; }
 
+        public DateTime Start_Date { get; set; }
+        public DateTime End_Date { get; set; }
+
         [ForeignKey("WineID")]
         public int WineID { get; set; }
         public Wine Wine { get; set; }
@@ -15,8 +18,5 @@ namespace API.Model
         [ForeignKey("DiscountID")]
         public int DiscountID { get; set; }
         public Discount Discount { get; set; }
-
-        public DateTime Start_Date { get; set; }
-        public DateTime End_Date { get; set; }
     }
 }

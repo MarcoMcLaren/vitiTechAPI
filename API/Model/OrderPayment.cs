@@ -8,14 +8,6 @@ namespace API.Model
         [Key]
         public int PaymentID { get; set; }
 
-        [ForeignKey("OrderID")]
-        public int OrderID { get; set; }
-        public Order Order { get; set; }
-
-        [ForeignKey("CustomerID")]
-        public int CustomerID { get; set; }
-        public Customer Customer { get; set; }
-
         public int AmountID { get; set; }
 
         public double Amount { get; set; }
