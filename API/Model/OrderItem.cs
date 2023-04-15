@@ -13,5 +13,7 @@ namespace API.Model
         [ForeignKey("WineID")]
         public int WineID { get; set; }
         public Wine Wine { get; set; }
+
+        public List<Refund> Refunds { get; set; }
     }
 }

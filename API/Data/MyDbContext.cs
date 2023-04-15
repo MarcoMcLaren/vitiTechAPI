@@ -67,6 +67,26 @@ namespace API.Data
             .WithOne(w => w.Wine)
             .HasForeignKey<OrderItem>(w => w.WineID);
 
+            modelBuilder.Entity<OrderItem>()
+            .HasMany(o => o.Refunds)
+            .WithOne(r => r.OrderItem)
+            .HasForeignKey(r => r.OrderItemID);
+
+            modelBuilder.Entity<Refund>()
+            .HasOne(r => r.RefundResponse)
+            .WithMany(rr => rr.Refunds)
+            .HasForeignKey(r => r.RefundResponseID);
+
+            modelBuilder.Entity<Refund>()
+            .HasOne(r => r.RefundReason)
+            .WithMany(rr => rr.Refunds)
+            .HasForeignKey(r => r.RefundReasonID);
+
+            modelBuilder.Entity<RefundReason>()
+             .HasOne(rr => rr.RefundType)
+             .WithMany(rt => rt.RefundReasons)
+             .HasForeignKey(rr => rr.RefundTypeID);
+
             base.OnModelCreating(modelBuilder);
         }
 

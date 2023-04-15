@@ -4,6 +4,7 @@ using API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    partial class MyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230415111529_jsndd")]
+    partial class jsndd
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -567,12 +570,7 @@ namespace API.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
-                    b.Property<int>("RefundTypeID")
-                        .HasColumnType("int");
-
                     b.HasKey("RefundReasonID");
-
-                    b.HasIndex("RefundTypeID");
 
                     b.ToTable("RefundReasons");
                 });
@@ -1110,17 +1108,6 @@ namespace API.Migrations
                     b.Navigation("RefundResponse");
                 });
 
-            modelBuilder.Entity("API.Model.RefundReason", b =>
-                {
-                    b.HasOne("API.Model.RefundType", "RefundType")
-                        .WithMany("RefundReasons")
-                        .HasForeignKey("RefundTypeID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("RefundType");
-                });
-
             modelBuilder.Entity("API.Model.StockTake_Item", b =>
                 {
                     b.HasOne("API.Model.Inventory", null)
@@ -1238,11 +1225,6 @@ namespace API.Migrations
             modelBuilder.Entity("API.Model.RefundResponse", b =>
                 {
                     b.Navigation("Refunds");
-                });
-
-            modelBuilder.Entity("API.Model.RefundType", b =>
-                {
-                    b.Navigation("RefundReasons");
                 });
 
             modelBuilder.Entity("API.Model.StockTake", b =>

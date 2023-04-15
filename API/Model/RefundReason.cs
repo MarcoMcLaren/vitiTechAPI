@@ -10,5 +10,13 @@ namespace API.Model
 
         [MaxLength(255)]
         public string Description { get; set; }
+
+        [ForeignKey("RefundTypeID")]
+        public int RefundTypeID { get; set; }
+        public RefundType RefundType { get; set; }
+
+        public List<Refund> Refunds { get; set; }
+
+
     }
 }

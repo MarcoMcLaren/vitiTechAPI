@@ -4,6 +4,7 @@ using API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    partial class MyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230415110706_knjdsdjsd")]
+    partial class knjdsdjsd
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -535,22 +538,12 @@ namespace API.Migrations
                     b.Property<int>("Quantity_Refunded")
                         .HasColumnType("int");
 
-                    b.Property<int>("RefundReasonID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("RefundResponseID")
-                        .HasColumnType("int");
-
                     b.Property<DateTime?>("Resolved_Date")
                         .HasColumnType("datetime2");
 
                     b.HasKey("RefundID");
 
                     b.HasIndex("OrderItemID");
-
-                    b.HasIndex("RefundReasonID");
-
-                    b.HasIndex("RefundResponseID");
 
                     b.ToTable("Refunds");
                 });
@@ -567,12 +560,7 @@ namespace API.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
-                    b.Property<int>("RefundTypeID")
-                        .HasColumnType("int");
-
                     b.HasKey("RefundReasonID");
-
-                    b.HasIndex("RefundTypeID");
 
                     b.ToTable("RefundReasons");
                 });
@@ -1091,34 +1079,7 @@ namespace API.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("API.Model.RefundReason", "RefundReason")
-                        .WithMany("Refunds")
-                        .HasForeignKey("RefundReasonID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("API.Model.RefundResponse", "RefundResponse")
-                        .WithMany("Refunds")
-                        .HasForeignKey("RefundResponseID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("OrderItem");
-
-                    b.Navigation("RefundReason");
-
-                    b.Navigation("RefundResponse");
-                });
-
-            modelBuilder.Entity("API.Model.RefundReason", b =>
-                {
-                    b.HasOne("API.Model.RefundType", "RefundType")
-                        .WithMany("RefundReasons")
-                        .HasForeignKey("RefundTypeID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("RefundType");
                 });
 
             modelBuilder.Entity("API.Model.StockTake_Item", b =>
@@ -1228,21 +1189,6 @@ namespace API.Migrations
             modelBuilder.Entity("API.Model.OrderItem", b =>
                 {
                     b.Navigation("Refunds");
-                });
-
-            modelBuilder.Entity("API.Model.RefundReason", b =>
-                {
-                    b.Navigation("Refunds");
-                });
-
-            modelBuilder.Entity("API.Model.RefundResponse", b =>
-                {
-                    b.Navigation("Refunds");
-                });
-
-            modelBuilder.Entity("API.Model.RefundType", b =>
-                {
-                    b.Navigation("RefundReasons");
                 });
 
             modelBuilder.Entity("API.Model.StockTake", b =>
