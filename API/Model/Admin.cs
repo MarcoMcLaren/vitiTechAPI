@@ -25,5 +25,10 @@ namespace API.Model
         public DateTime Hire_Date { get; set; }
 
         public List<Wine> Wines { get; set; }
+
+        public List<Employee> Employees { get; set; }
+
+        public List<EventLocation> EventLocations { get; set; }
+
     }
 }

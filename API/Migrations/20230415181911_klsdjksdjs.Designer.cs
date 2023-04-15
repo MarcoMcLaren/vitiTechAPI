@@ -4,6 +4,7 @@ using API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    partial class MyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230415181911_klsdjksdjs")]
+    partial class klsdjksdjs
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -248,9 +251,6 @@ namespace API.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EmployeeID"));
 
-                    b.Property<int?>("AdminID")
-                        .HasColumnType("int");
-
                     b.Property<string>("Email")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
@@ -275,8 +275,6 @@ namespace API.Migrations
                         .HasColumnType("nvarchar(10)");
 
                     b.HasKey("EmployeeID");
-
-                    b.HasIndex("AdminID");
 
                     b.ToTable("Employees");
                 });
@@ -326,9 +324,6 @@ namespace API.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EventLocationID"));
 
-                    b.Property<int>("AdminID")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("Date_of_last_update")
                         .HasColumnType("datetime2");
 
@@ -341,8 +336,6 @@ namespace API.Migrations
                         .HasColumnType("nvarchar(100)");
 
                     b.HasKey("EventLocationID");
-
-                    b.HasIndex("AdminID");
 
                     b.ToTable("EventLocations");
                 });
@@ -460,9 +453,6 @@ namespace API.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderID"));
 
-                    b.Property<int>("CustomerID")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("Order_Date")
                         .HasColumnType("datetime2");
 
@@ -470,8 +460,6 @@ namespace API.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("OrderID");
-
-                    b.HasIndex("CustomerID");
 
                     b.ToTable("Orders");
                 });
@@ -522,9 +510,6 @@ namespace API.Migrations
 
                     b.Property<int>("OrderID")
                         .HasColumnType("int");
-
-                    b.Property<string>("Test")
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("PaymentID");
 
@@ -1078,15 +1063,10 @@ namespace API.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("WriteOffID"));
 
-                    b.Property<int>("EmployeeID")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("WriteOff_Date")
                         .HasColumnType("datetime2");
 
                     b.HasKey("WriteOffID");
-
-                    b.HasIndex("EmployeeID");
 
                     b.ToTable("WriteOffs");
                 });
@@ -1146,26 +1126,6 @@ namespace API.Migrations
                     b.ToTable("WriteOffReasons");
                 });
 
-            modelBuilder.Entity("API.Model.Employee", b =>
-                {
-                    b.HasOne("API.Model.Admin", "Admin")
-                        .WithMany("Employees")
-                        .HasForeignKey("AdminID");
-
-                    b.Navigation("Admin");
-                });
-
-            modelBuilder.Entity("API.Model.EventLocation", b =>
-                {
-                    b.HasOne("API.Model.Admin", "Admin")
-                        .WithMany("EventLocations")
-                        .HasForeignKey("AdminID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Admin");
-                });
-
             modelBuilder.Entity("API.Model.Inventory", b =>
                 {
                     b.HasOne("API.Model.Wine", "Wine")
@@ -1173,17 +1133,6 @@ namespace API.Migrations
                         .HasForeignKey("WineID");
 
                     b.Navigation("Wine");
-                });
-
-            modelBuilder.Entity("API.Model.Order", b =>
-                {
-                    b.HasOne("API.Model.Customer", "Customer")
-                        .WithMany()
-                        .HasForeignKey("CustomerID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Customer");
                 });
 
             modelBuilder.Entity("API.Model.OrderItem", b =>
@@ -1397,17 +1346,6 @@ namespace API.Migrations
                     b.Navigation("Wishlist");
                 });
 
-            modelBuilder.Entity("API.Model.WriteOff", b =>
-                {
-                    b.HasOne("API.Model.Employee", "Employee")
-                        .WithMany("WriteOffs")
-                        .HasForeignKey("EmployeeID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Employee");
-                });
-
             modelBuilder.Entity("API.Model.WriteOffItem", b =>
                 {
                     b.HasOne("API.Model.Wine", "Wine")
@@ -1440,10 +1378,6 @@ namespace API.Migrations
 
             modelBuilder.Entity("API.Model.Admin", b =>
                 {
-                    b.Navigation("Employees");
-
-                    b.Navigation("EventLocations");
-
                     b.Navigation("Wines");
                 });
 
@@ -1455,11 +1389,6 @@ namespace API.Migrations
             modelBuilder.Entity("API.Model.Discount", b =>
                 {
                     b.Navigation("WineDiscounts");
-                });
-
-            modelBuilder.Entity("API.Model.Employee", b =>
-                {
-                    b.Navigation("WriteOffs");
                 });
 
             modelBuilder.Entity("API.Model.Inventory", b =>

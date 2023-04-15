@@ -9,6 +9,7 @@ namespace API.Model
         [Key]
         public int CustomerID { get; set; }
 
+
         [MaxLength(50)]
         public string Title { get; set; }
 
@@ -35,5 +36,8 @@ namespace API.Model
         public DateTime Date_of_last_update { get; set; }
 
         public Wishlist Wishlist { get; set; }
+
+
+
     }
 }

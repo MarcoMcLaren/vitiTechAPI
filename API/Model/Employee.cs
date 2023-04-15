@@ -24,5 +24,12 @@ namespace API.Model
         public string ID_Number { get; set; }
 
         public DateTime Hire_Date { get; set; }
+
+        public List<WriteOff> WriteOffs { get; set; }
+
+        [ForeignKey("AdminID")]
+        public int? AdminID { get; set; }
+
+        public Admin Admin { get; set; }
     }
 }

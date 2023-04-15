@@ -11,5 +11,10 @@ namespace API.Model
         public DateTime WriteOff_Date { get; set; }
 
         public List<WriteOffItem> WriteOffItems { get; set; }
+
+        [ForeignKey("EmployeeID")]
+        public int EmployeeID { get; set; }
+
+        public Employee Employee { get; set; }
     }
 }

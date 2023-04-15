@@ -4,6 +4,7 @@ using API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    partial class MyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230415193005_eiweiweu")]
+    partial class eiweiweu
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -326,9 +329,6 @@ namespace API.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EventLocationID"));
 
-                    b.Property<int>("AdminID")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("Date_of_last_update")
                         .HasColumnType("datetime2");
 
@@ -341,8 +341,6 @@ namespace API.Migrations
                         .HasColumnType("nvarchar(100)");
 
                     b.HasKey("EventLocationID");
-
-                    b.HasIndex("AdminID");
 
                     b.ToTable("EventLocations");
                 });
@@ -1155,17 +1153,6 @@ namespace API.Migrations
                     b.Navigation("Admin");
                 });
 
-            modelBuilder.Entity("API.Model.EventLocation", b =>
-                {
-                    b.HasOne("API.Model.Admin", "Admin")
-                        .WithMany("EventLocations")
-                        .HasForeignKey("AdminID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Admin");
-                });
-
             modelBuilder.Entity("API.Model.Inventory", b =>
                 {
                     b.HasOne("API.Model.Wine", "Wine")
@@ -1441,8 +1428,6 @@ namespace API.Migrations
             modelBuilder.Entity("API.Model.Admin", b =>
                 {
                     b.Navigation("Employees");
-
-                    b.Navigation("EventLocations");
 
                     b.Navigation("Wines");
                 });

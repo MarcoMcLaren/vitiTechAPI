@@ -122,6 +122,36 @@ namespace API.Data
             .WithMany(w => w.Wines)
             .HasForeignKey(a => a.AdminID);
 
+            modelBuilder.Entity<Order>()
+            .HasMany(o => o.OrderItems)
+            .WithOne(oi => oi.Order)
+            .HasForeignKey(oi => oi.OrderID);
+
+            modelBuilder.Entity<Order>()
+            .HasOne(o => o.ShippingDetails)
+            .WithOne(sd => sd.Order)
+            .HasForeignKey<ShippingDetails>(sd => sd.OrderID);
+
+            modelBuilder.Entity<Order>()
+            .HasOne(o => o.OrderPayment)
+            .WithOne(op => op.Order)
+            .HasForeignKey<OrderPayment>(op => op.OrderID);
+
+            modelBuilder.Entity<WriteOff>()
+            .HasOne(w => w.Employee)
+            .WithMany(e => e.WriteOffs)
+            .HasForeignKey(w => w.EmployeeID);
+
+            modelBuilder.Entity<Employee>()
+            .HasOne(e => e.Admin)
+            .WithMany(a => a.Employees)
+            .HasForeignKey(e => e.AdminID);
+
+            modelBuilder.Entity<Admin>()
+            .HasMany(a => a.EventLocations)
+            .WithOne(el => el.Admin)
+            .HasForeignKey(el => el.AdminID);
+
             base.OnModelCreating(modelBuilder);
         }
 

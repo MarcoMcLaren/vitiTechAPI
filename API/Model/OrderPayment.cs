@@ -12,6 +12,14 @@ namespace API.Model
 
         public double Amount { get; set; }
 
+        public string Test { get; set; }
+
         public DateTime Date { get; set; }
+
+        [ForeignKey("OrderID")]
+        public int OrderID { get; set; }
+        public Order Order { get; set; }
+
+
     }
 }

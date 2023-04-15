@@ -15,5 +15,10 @@ namespace API.Model
         public string Postal_Code { get; set; }
 
         public DateTime Date_of_last_update { get; set; }
+
+        [ForeignKey("AdminID")]
+        public int AdminID { get; set; }
+
+        public Admin Admin { get; set; }
     }
 }
