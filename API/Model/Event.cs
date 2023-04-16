@@ -38,5 +38,7 @@ namespace API.Model
         public int EventTypeID { get; set; }
         public EventType EventType { get; set; }
 
+        public List<Booking> Bookings { get; set; }
+
     }
 }

@@ -9,7 +9,6 @@ namespace API.Model
         [Key]
         public int CustomerID { get; set; }
 
-
         [MaxLength(50)]
         public string Title { get; set; }
 
@@ -37,7 +36,13 @@ namespace API.Model
 
         public Wishlist Wishlist { get; set; }
 
+        public List<Booking> Bookings { get; set; }
 
+        public List<EventReview> EventReviews { get; set; }
+
+        public List<User> Users { get; set; }
+
+        public List<Address> Addresses { get; set; }
 
     }
 }

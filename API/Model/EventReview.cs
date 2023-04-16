@@ -14,5 +14,9 @@ namespace API.Model
         public string Comment { get; set; }
 
         public DateTime Review_Date { get; set; }
+
+        [ForeignKey("CustomerID")]
+        public int? CustomerID { get; set; }
+        public Customer Customer { get; set; }
     }
 }

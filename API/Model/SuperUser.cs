@@ -36,5 +36,14 @@ namespace API.Model
         public int AdminID { get; set; }
         public Admin Admin { get; set; }
 
+        [ForeignKey("UserID")]
+        public int UserID { get; set; }
+        public User User { get; set; }
+
+        [ForeignKey("AddressID")]
+        public int AddressID { get; set; }
+        public Address Address { get; set; }
+
+
     }
 }

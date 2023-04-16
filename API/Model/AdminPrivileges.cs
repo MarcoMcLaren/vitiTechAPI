@@ -13,8 +13,5 @@ namespace API.Model
 
         public Admin Admin { get; set; }
 
-        [ForeignKey("SuperUserID")]
-        public int SuperUserID { get; set; }
-        public SuperUser SuperUser { get; set; }
     }
 }

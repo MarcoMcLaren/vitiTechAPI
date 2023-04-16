@@ -4,6 +4,7 @@ using API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    partial class MyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230416203200_iweuewe")]
+    partial class iweuewe
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -110,7 +113,12 @@ namespace API.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
+                    b.Property<int>("SuperUserID")
+                        .HasColumnType("int");
+
                     b.HasKey("AdminPrivilegesID");
+
+                    b.HasIndex("SuperUserID");
 
                     b.ToTable("AdminPrivileges");
                 });
@@ -1343,6 +1351,17 @@ namespace API.Migrations
                         .IsRequired();
 
                     b.Navigation("AdminPrivileges");
+                });
+
+            modelBuilder.Entity("API.Model.AdminPrivileges", b =>
+                {
+                    b.HasOne("API.Model.SuperUser", "SuperUser")
+                        .WithMany()
+                        .HasForeignKey("SuperUserID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("SuperUser");
                 });
 
             modelBuilder.Entity("API.Model.Booking", b =>

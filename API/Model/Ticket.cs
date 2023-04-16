@@ -13,5 +13,9 @@ namespace API.Model
         public DateTime PurchaseDate { get; set; }
 
         public DateTime ExpiredDate { get; set; }
+
+        [ForeignKey("BookingID")]
+        public int BookingId { get; set; }
+        public Booking Booking { get; set; }
     }
 }

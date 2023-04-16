@@ -4,6 +4,7 @@ using API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    partial class MyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230416194000_BookingTicket")]
+    partial class BookingTicket
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -33,9 +36,6 @@ namespace API.Migrations
                     b.Property<int>("CityID")
                         .HasColumnType("int");
 
-                    b.Property<int?>("CustomerID")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("Date_of_last_update")
                         .HasColumnType("datetime2");
 
@@ -50,8 +50,6 @@ namespace API.Migrations
                     b.HasKey("AddressID");
 
                     b.HasIndex("CityID");
-
-                    b.HasIndex("CustomerID");
 
                     b.ToTable("Addresses");
                 });
@@ -110,7 +108,12 @@ namespace API.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
+                    b.Property<int>("SuperUserID")
+                        .HasColumnType("int");
+
                     b.HasKey("AdminPrivilegesID");
+
+                    b.HasIndex("SuperUserID");
 
                     b.ToTable("AdminPrivileges");
                 });
@@ -143,15 +146,10 @@ namespace API.Migrations
                     b.Property<DateTime>("BookingDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("CustomerId")
-                        .HasColumnType("int");
-
                     b.Property<int>("EventId")
                         .HasColumnType("int");
 
                     b.HasKey("BookingID");
-
-                    b.HasIndex("CustomerId");
 
                     b.HasIndex("EventId");
 
@@ -166,9 +164,6 @@ namespace API.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PaymentID"));
 
-                    b.Property<int>("BookingId")
-                        .HasColumnType("int");
-
                     b.Property<double>("PaymentAmount")
                         .HasColumnType("float");
 
@@ -176,9 +171,6 @@ namespace API.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("PaymentID");
-
-                    b.HasIndex("BookingId")
-                        .IsUnique();
 
                     b.ToTable("BookingPayments");
                 });
@@ -469,9 +461,6 @@ namespace API.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
-                    b.Property<int?>("CustomerID")
-                        .HasColumnType("int");
-
                     b.Property<int>("Rating")
                         .HasColumnType("int");
 
@@ -479,8 +468,6 @@ namespace API.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("EventReviewID");
-
-                    b.HasIndex("CustomerID");
 
                     b.ToTable("EventReviews");
                 });
@@ -851,9 +838,6 @@ namespace API.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SuperUserID"));
 
-                    b.Property<int>("AddressID")
-                        .HasColumnType("int");
-
                     b.Property<int>("AdminID")
                         .HasColumnType("int");
 
@@ -885,16 +869,9 @@ namespace API.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<int>("UserID")
-                        .HasColumnType("int");
-
                     b.HasKey("SuperUserID");
 
-                    b.HasIndex("AddressID");
-
                     b.HasIndex("AdminID");
-
-                    b.HasIndex("UserID");
 
                     b.ToTable("SuperUser");
                 });
@@ -1016,9 +993,6 @@ namespace API.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserID"));
 
-                    b.Property<int?>("CustomerID")
-                        .HasColumnType("int");
-
                     b.Property<string>("UserEmail")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
@@ -1028,8 +1002,6 @@ namespace API.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.HasKey("UserID");
-
-                    b.HasIndex("CustomerID");
 
                     b.ToTable("Users");
                 });
@@ -1324,14 +1296,7 @@ namespace API.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("API.Model.Customer", "Customer")
-                        .WithMany("Addresses")
-                        .HasForeignKey("CustomerID")
-                        .OnDelete(DeleteBehavior.SetNull);
-
                     b.Navigation("City");
-
-                    b.Navigation("Customer");
                 });
 
             modelBuilder.Entity("API.Model.Admin", b =>
@@ -1345,33 +1310,26 @@ namespace API.Migrations
                     b.Navigation("AdminPrivileges");
                 });
 
+            modelBuilder.Entity("API.Model.AdminPrivileges", b =>
+                {
+                    b.HasOne("API.Model.SuperUser", "SuperUser")
+                        .WithMany()
+                        .HasForeignKey("SuperUserID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("SuperUser");
+                });
+
             modelBuilder.Entity("API.Model.Booking", b =>
                 {
-                    b.HasOne("API.Model.Customer", "Customer")
-                        .WithMany("Bookings")
-                        .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.SetNull);
-
                     b.HasOne("API.Model.Event", "Event")
                         .WithMany("Bookings")
                         .HasForeignKey("EventId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Customer");
-
                     b.Navigation("Event");
-                });
-
-            modelBuilder.Entity("API.Model.BookingPayment", b =>
-                {
-                    b.HasOne("API.Model.Booking", "Booking")
-                        .WithOne("BookingPayment")
-                        .HasForeignKey("API.Model.BookingPayment", "BookingId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Booking");
                 });
 
             modelBuilder.Entity("API.Model.City", b =>
@@ -1430,16 +1388,6 @@ namespace API.Migrations
                         .IsRequired();
 
                     b.Navigation("Admin");
-                });
-
-            modelBuilder.Entity("API.Model.EventReview", b =>
-                {
-                    b.HasOne("API.Model.Customer", "Customer")
-                        .WithMany("EventReviews")
-                        .HasForeignKey("CustomerID")
-                        .OnDelete(DeleteBehavior.SetNull);
-
-                    b.Navigation("Customer");
                 });
 
             modelBuilder.Entity("API.Model.Inventory", b =>
@@ -1569,29 +1517,13 @@ namespace API.Migrations
 
             modelBuilder.Entity("API.Model.SuperUser", b =>
                 {
-                    b.HasOne("API.Model.Address", "Address")
-                        .WithMany("SuperUsers")
-                        .HasForeignKey("AddressID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("API.Model.Admin", "Admin")
                         .WithMany("SuperUsers")
                         .HasForeignKey("AdminID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("API.Model.User", "User")
-                        .WithMany("SuperUsers")
-                        .HasForeignKey("UserID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Address");
-
                     b.Navigation("Admin");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("API.Model.SupplierOrder", b =>
@@ -1633,16 +1565,6 @@ namespace API.Migrations
                         .IsRequired();
 
                     b.Navigation("Booking");
-                });
-
-            modelBuilder.Entity("API.Model.User", b =>
-                {
-                    b.HasOne("API.Model.Customer", "Customer")
-                        .WithMany("Users")
-                        .HasForeignKey("CustomerID")
-                        .OnDelete(DeleteBehavior.SetNull);
-
-                    b.Navigation("Customer");
                 });
 
             modelBuilder.Entity("API.Model.Wine", b =>
@@ -1773,11 +1695,6 @@ namespace API.Migrations
                     b.Navigation("WriteOffItem");
                 });
 
-            modelBuilder.Entity("API.Model.Address", b =>
-                {
-                    b.Navigation("SuperUsers");
-                });
-
             modelBuilder.Entity("API.Model.Admin", b =>
                 {
                     b.Navigation("Employees");
@@ -1798,8 +1715,6 @@ namespace API.Migrations
 
             modelBuilder.Entity("API.Model.Booking", b =>
                 {
-                    b.Navigation("BookingPayment");
-
                     b.Navigation("Tickets");
                 });
 
@@ -1815,14 +1730,6 @@ namespace API.Migrations
 
             modelBuilder.Entity("API.Model.Customer", b =>
                 {
-                    b.Navigation("Addresses");
-
-                    b.Navigation("Bookings");
-
-                    b.Navigation("EventReviews");
-
-                    b.Navigation("Users");
-
                     b.Navigation("Wishlist");
                 });
 
@@ -1903,11 +1810,6 @@ namespace API.Migrations
             modelBuilder.Entity("API.Model.SupplierOrder", b =>
                 {
                     b.Navigation("SupplierPayment");
-                });
-
-            modelBuilder.Entity("API.Model.User", b =>
-                {
-                    b.Navigation("SuperUsers");
                 });
 
             modelBuilder.Entity("API.Model.Varietal", b =>

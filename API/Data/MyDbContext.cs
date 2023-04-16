@@ -196,6 +196,55 @@ namespace API.Data
             .WithMany(et => et.Events)
             .HasForeignKey(e => e.EventTypeID);
 
+            modelBuilder.Entity<Booking>()
+            .HasOne(b => b.Event)
+            .WithMany(e => e.Bookings)
+            .HasForeignKey(b => b.EventId);
+
+            modelBuilder.Entity<Booking>()
+            .HasMany(b => b.Tickets)
+            .WithOne(t => t.Booking)
+            .HasForeignKey(t => t.BookingId);
+
+            modelBuilder.Entity<Booking>()
+            .HasOne(b => b.BookingPayment)
+            .WithOne(p => p.Booking)
+            .HasForeignKey<BookingPayment>(p => p.BookingId);
+
+            modelBuilder.Entity<Booking>()
+            .HasOne(b => b.Customer)
+            .WithMany(c => c.Bookings)
+            .HasForeignKey(b => b.CustomerId)
+            .OnDelete(DeleteBehavior.SetNull);
+
+            modelBuilder.Entity<EventReview>()
+            .HasOne(r => r.Customer)
+            .WithMany(c => c.EventReviews)
+            .HasForeignKey(r => r.CustomerID)
+            .OnDelete(DeleteBehavior.SetNull);
+
+            modelBuilder.Entity<User>()
+            .HasOne(u => u.Customer)
+            .WithMany(c => c.Users)
+            .HasForeignKey(u => u.CustomerID)
+            .OnDelete(DeleteBehavior.SetNull);
+
+            modelBuilder.Entity<Address>()
+            .HasOne(a => a.Customer)
+            .WithMany(c => c.Addresses)
+            .HasForeignKey(a => a.CustomerID)
+            .OnDelete(DeleteBehavior.SetNull);
+
+            modelBuilder.Entity<SuperUser>()
+            .HasOne(su => su.User)
+            .WithMany(u => u.SuperUsers)
+            .HasForeignKey(su => su.UserID);
+
+            modelBuilder.Entity<Address>()
+            .HasMany(a => a.SuperUsers)
+            .WithOne(su => su.Address)
+            .HasForeignKey(su => su.AddressID);
+
             base.OnModelCreating(modelBuilder);
         }
 

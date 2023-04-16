@@ -20,5 +20,10 @@ namespace API.Model
         public int CityID { get; set; }
         public City City { get; set; }
 
+        [ForeignKey("CustomerID")]
+        public int? CustomerID { get; set; }
+        public Customer Customer { get; set; }
+
+        public List<SuperUser> SuperUsers { get; set; }
     }
 }
