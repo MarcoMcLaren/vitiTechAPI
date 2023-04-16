@@ -4,6 +4,7 @@ using API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    partial class MyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230416131754_EventEventPrice")]
+    partial class EventEventPrice
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -371,9 +374,6 @@ namespace API.Migrations
                     b.Property<int>("EventPriceID")
                         .HasColumnType("int");
 
-                    b.Property<int>("EventTypeID")
-                        .HasColumnType("int");
-
                     b.Property<int>("Tickets_Available")
                         .HasColumnType("int");
 
@@ -390,8 +390,6 @@ namespace API.Migrations
 
                     b.HasIndex("EventPriceID")
                         .IsUnique();
-
-                    b.HasIndex("EventTypeID");
 
                     b.ToTable("Events");
                 });
@@ -1342,17 +1340,9 @@ namespace API.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("API.Model.EventType", "EventType")
-                        .WithMany("Events")
-                        .HasForeignKey("EventTypeID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Admin");
 
                     b.Navigation("EventPrice");
-
-                    b.Navigation("EventType");
                 });
 
             modelBuilder.Entity("API.Model.EventLocation", b =>
@@ -1706,11 +1696,6 @@ namespace API.Migrations
             modelBuilder.Entity("API.Model.EventPrice", b =>
                 {
                     b.Navigation("Event");
-                });
-
-            modelBuilder.Entity("API.Model.EventType", b =>
-                {
-                    b.Navigation("Events");
                 });
 
             modelBuilder.Entity("API.Model.Inventory", b =>

@@ -9,5 +9,7 @@ namespace API.Model
         public int EventPriceID { get; set; }
 
         public double Amount { get; set; }
+
+        public Event Event { get; set; }
     }
 }

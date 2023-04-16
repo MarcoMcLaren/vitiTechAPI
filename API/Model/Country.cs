@@ -11,5 +11,7 @@ namespace API.Model
         public string Description { get; set; }
 
         public DateTime Date_of_last_update { get; set; }
+
+        public List<Region> Regions { get; set; }
     }
 }

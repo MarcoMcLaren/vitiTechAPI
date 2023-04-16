@@ -12,5 +12,11 @@ namespace API.Model
         public string Description { get; set; }
 
         public DateTime Date_of_last_update { get; set; }
+
+        public List<City> Cities { get; set; }
+
+        [ForeignKey("Country")]
+        public int CountryID { get; set; }
+        public Country Country { get; set; }
     }
 }

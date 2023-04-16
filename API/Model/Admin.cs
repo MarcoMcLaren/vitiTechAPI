@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace API.Model
 {
@@ -6,6 +7,11 @@ namespace API.Model
     {
         [Key]
         public int AdminID { get; set; }
+
+        [ForeignKey("AdminPrivilegesID")]
+        public int AdminPrivilegesID { get; set; }
+        public AdminPrivileges AdminPrivileges { get; set; }
+
 
         [MaxLength(50)]
         public string First_Name { get; set; }
@@ -30,5 +36,8 @@ namespace API.Model
 
         public List<EventLocation> EventLocations { get; set; }
 
+        public List<Event> Events { get; set; }
+
+        public List<SuperUser> SuperUsers { get; set; }
     }
 }

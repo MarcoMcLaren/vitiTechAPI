@@ -24,5 +24,19 @@ namespace API.Model
 
         [MaxLength(255)]
         public string image_URL { get; set; }
+
+        [ForeignKey("AdminID")]
+        public int AdminID { get; set; }
+        public Admin Admin { get; set; }
+
+        [ForeignKey("EventPriceID")]
+        public int EventPriceID { get; set; }
+        public EventPrice EventPrice { get; set; }
+
+
+        [ForeignKey("EventTypeID")]
+        public int EventTypeID { get; set; }
+        public EventType EventType { get; set; }
+
     }
 }

@@ -152,10 +152,55 @@ namespace API.Data
             .WithOne(el => el.Admin)
             .HasForeignKey(el => el.AdminID);
 
+            modelBuilder.Entity<Event>()
+            .HasOne(e => e.Admin)
+            .WithMany(a => a.Events)
+            .HasForeignKey(e => e.AdminID);
+
+            modelBuilder.Entity<Admin>()
+            .HasOne(a => a.AdminPrivileges)
+            .WithOne(ap => ap.Admin)
+            .HasForeignKey<Admin>(a => a.AdminPrivilegesID);
+
+            modelBuilder.Entity<Admin>()
+            .HasMany(a => a.SuperUsers)
+            .WithOne(s => s.Admin)
+            .HasForeignKey(s => s.AdminID)
+            .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Address>()
+            .HasOne(a => a.City)
+            .WithMany(c => c.Addresses)
+            .HasForeignKey(a => a.CityID)
+            .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<City>()
+            .HasOne(c => c.Region)
+            .WithMany(r => r.Cities)
+            .HasForeignKey(c => c.RegionID)
+            .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Region>()
+            .HasOne(r => r.Country)
+            .WithMany(c => c.Regions)
+            .HasForeignKey(r => r.CountryID)
+            .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Event>()
+            .HasOne(e => e.EventPrice)
+            .WithOne(ep => ep.Event)
+            .HasForeignKey<Event>(e => e.EventPriceID);
+
+            modelBuilder.Entity<Event>()
+            .HasOne(e => e.EventType)
+            .WithMany(et => et.Events)
+            .HasForeignKey(e => e.EventTypeID);
+
             base.OnModelCreating(modelBuilder);
         }
 
         public DbSet<Admin> Admins { get; set; }
+        public DbSet<Address> Addresses { get; set; }
         public DbSet<Blacklist> Blacklists { get; set; }
         public DbSet<Booking> Bookings { get; set; }
         public DbSet<BookingPayment> BookingPayments { get; set; }

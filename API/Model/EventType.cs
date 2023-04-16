@@ -12,5 +12,7 @@ namespace API.Model
 
         [MaxLength(255)]
         public string EventDescription { get; set; }
+
+        public List<Event> Events { get; set; }
     }
 }

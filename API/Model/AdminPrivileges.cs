@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace API.Model
 {
@@ -9,5 +10,11 @@ namespace API.Model
 
         [MaxLength(255)]
         public string Privilege_Description { get; set; }
+
+        public Admin Admin { get; set; }
+
+        [ForeignKey("SuperUserID")]
+        public int SuperUserID { get; set; }
+        public SuperUser SuperUser { get; set; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace API.Model
 {
@@ -30,5 +31,10 @@ namespace API.Model
 
         [Required]
         public DateTime Hire_Date { get; set; }
+
+        [ForeignKey("AdminID")]
+        public int AdminID { get; set; }
+        public Admin Admin { get; set; }
+
     }
 }

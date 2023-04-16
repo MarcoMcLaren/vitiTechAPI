@@ -4,6 +4,7 @@ using API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    partial class MyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230416124523_wisuyewue")]
+    partial class wisuyewue
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -368,12 +371,6 @@ namespace API.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
-                    b.Property<int>("EventPriceID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("EventTypeID")
-                        .HasColumnType("int");
-
                     b.Property<int>("Tickets_Available")
                         .HasColumnType("int");
 
@@ -387,11 +384,6 @@ namespace API.Migrations
                     b.HasKey("EventID");
 
                     b.HasIndex("AdminID");
-
-                    b.HasIndex("EventPriceID")
-                        .IsUnique();
-
-                    b.HasIndex("EventTypeID");
 
                     b.ToTable("Events");
                 });
@@ -733,9 +725,6 @@ namespace API.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RegionID"));
 
-                    b.Property<int>("CountryID")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("Date_of_last_update")
                         .HasColumnType("datetime2");
 
@@ -744,8 +733,6 @@ namespace API.Migrations
                         .HasColumnType("nvarchar(255)");
 
                     b.HasKey("RegionID");
-
-                    b.HasIndex("CountryID");
 
                     b.ToTable("Regions");
                 });
@@ -1336,23 +1323,7 @@ namespace API.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("API.Model.EventPrice", "EventPrice")
-                        .WithOne("Event")
-                        .HasForeignKey("API.Model.Event", "EventPriceID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("API.Model.EventType", "EventType")
-                        .WithMany("Events")
-                        .HasForeignKey("EventTypeID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Admin");
-
-                    b.Navigation("EventPrice");
-
-                    b.Navigation("EventType");
                 });
 
             modelBuilder.Entity("API.Model.EventLocation", b =>
@@ -1452,17 +1423,6 @@ namespace API.Migrations
                         .IsRequired();
 
                     b.Navigation("RefundType");
-                });
-
-            modelBuilder.Entity("API.Model.Region", b =>
-                {
-                    b.HasOne("API.Model.Country", "Country")
-                        .WithMany("Regions")
-                        .HasForeignKey("CountryID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Country");
                 });
 
             modelBuilder.Entity("API.Model.ShippingDetails", b =>
@@ -1683,11 +1643,6 @@ namespace API.Migrations
                     b.Navigation("Addresses");
                 });
 
-            modelBuilder.Entity("API.Model.Country", b =>
-                {
-                    b.Navigation("Regions");
-                });
-
             modelBuilder.Entity("API.Model.Customer", b =>
                 {
                     b.Navigation("Wishlist");
@@ -1701,16 +1656,6 @@ namespace API.Migrations
             modelBuilder.Entity("API.Model.Employee", b =>
                 {
                     b.Navigation("WriteOffs");
-                });
-
-            modelBuilder.Entity("API.Model.EventPrice", b =>
-                {
-                    b.Navigation("Event");
-                });
-
-            modelBuilder.Entity("API.Model.EventType", b =>
-                {
-                    b.Navigation("Events");
                 });
 
             modelBuilder.Entity("API.Model.Inventory", b =>

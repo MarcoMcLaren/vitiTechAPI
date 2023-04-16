@@ -3,10 +3,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace API.Model
 {
-    public class EventLocation
+    public class Address
     {
         [Key]
-        public int EventLocationID { get; set; }
+        public int AddressID { get; set; }
 
         [MaxLength(100)]
         public string Street_Address { get; set; }
@@ -16,10 +16,9 @@ namespace API.Model
 
         public DateTime Date_of_last_update { get; set; }
 
-        [ForeignKey("AdminID")]
-        public int AdminID { get; set; }
-
-        public Admin Admin { get; set; }
+        [ForeignKey("CityID")]
+        public int CityID { get; set; }
+        public City City { get; set; }
 
     }
 }
