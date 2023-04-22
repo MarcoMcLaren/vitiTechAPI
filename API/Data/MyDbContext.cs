@@ -1,5 +1,6 @@
 ﻿using API.Model;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.SqlServer;
 
 namespace API.Data
 {
@@ -294,6 +295,8 @@ namespace API.Data
         public DbSet<WriteOff> WriteOffs { get; set; }
         public DbSet<WriteOffItem> WriteOffItems { get; set; }
         public DbSet<WriteOff_Reason> WriteOffReasons { get; set; }
+        public DbSet<API.Model.AdminPrivileges> AdminPrivileges { get; set; }
+        public DbSet<API.Model.SuperUser> SuperUser { get; set; }
       
     }
 }
