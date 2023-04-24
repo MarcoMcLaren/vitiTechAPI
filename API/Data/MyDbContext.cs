@@ -183,8 +183,8 @@ namespace API.Data
             modelBuilder.Entity<Region>()
             .HasOne(r => r.Country)
             .WithMany(c => c.Regions)
-            .HasForeignKey(r => r.CountryID)
-            .OnDelete(DeleteBehavior.Cascade);
+            .HasForeignKey(r => r.CountryID);
+       
 
             modelBuilder.Entity<Event>()
             .HasOne(e => e.EventPrice)
