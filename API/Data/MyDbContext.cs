@@ -10,6 +10,13 @@ namespace API.Data
         {
         }
 
+        //Not deleted
+        //.OnDelete(DeleteBehavior.Restrict);
+
+        //Delete
+        //.OnDelete(DeleteBehavior.Cascade);
+
+        //Testing github
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<StockTake_Item>()
