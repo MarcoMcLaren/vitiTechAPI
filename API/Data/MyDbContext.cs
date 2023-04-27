@@ -265,7 +265,6 @@ namespace API.Data
         public DbSet<Country> Countries { get; set; }
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Discount> Discounts{ get; set; }
-        public DbSet<EarlyBird> EarlyBirds { get; set; }
         public DbSet<Employee> Employees { get; set; }
         public DbSet<Event> Events { get; set; }
         public DbSet<EventLocation> EventLocations { get; set; }
