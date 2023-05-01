@@ -32,10 +32,6 @@ namespace API.Model
         [Required]
         public DateTime Hire_Date { get; set; }
 
-        [ForeignKey("AdminID")]
-        public int AdminID { get; set; }
-        public Admin Admin { get; set; }
-
         [ForeignKey("UserID")]
         public int UserID { get; set; }
         public User User { get; set; }
@@ -43,7 +39,6 @@ namespace API.Model
         [ForeignKey("AddressID")]
         public int AddressID { get; set; }
         public Address Address { get; set; }
-
 
     }
 }

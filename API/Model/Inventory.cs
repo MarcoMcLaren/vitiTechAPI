@@ -8,9 +8,9 @@ namespace API.Model
         [Key]
         public int InventoryID { get; set; }
 
-        public int Stock_Limit { get; set; }
+        public int StockLimit { get; set; }
 
-        public int Quantity_On_Hand { get; set; }
+        public int QuantityOnHand { get; set; }
 
         [ForeignKey("WineID")]
         public int? WineID { get; set; }

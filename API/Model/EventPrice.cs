@@ -10,6 +10,8 @@ namespace API.Model
 
         public double Amount { get; set; }
 
+        public DateTime Date { get; set; }
+
         public Event Event { get; set; }
     }
 }

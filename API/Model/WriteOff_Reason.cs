@@ -16,5 +16,7 @@ namespace API.Model
         [ForeignKey("WriteOffItemID")]
         public int WriteOffItemID { get; set; }
         public WriteOffItem WriteOffItem { get; set; }
+
+        public List<WriteOffItem> WriteOffItems { get; set; }
     }
 }

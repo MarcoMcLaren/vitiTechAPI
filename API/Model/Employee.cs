@@ -27,9 +27,10 @@ namespace API.Model
 
         public List<WriteOff> WriteOffs { get; set; }
 
-        [ForeignKey("AdminID")]
-        public int? AdminID { get; set; }
+        public List<Wine> Wines { get; set; }
 
-        public Admin Admin { get; set; }
+        [ForeignKey("UserID")]
+        public int UserID { get; set; }
+        public User User { get; set; }
     }
 }

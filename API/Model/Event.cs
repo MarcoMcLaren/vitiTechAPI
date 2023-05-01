@@ -23,11 +23,8 @@ namespace API.Model
         public int EarlyBird { get; set; }
 
         [MaxLength(255)]
-        public string image_URL { get; set; }
+        public string Image_URL { get; set; }
 
-        [ForeignKey("AdminID")]
-        public int AdminID { get; set; }
-        public Admin Admin { get; set; }
 
         [ForeignKey("EventPriceID")]
         public int EventPriceID { get; set; }

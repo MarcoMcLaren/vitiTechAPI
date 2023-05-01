@@ -22,6 +22,8 @@ namespace API.Model
 
         public List<OrderItem> OrderItems { get; set; }
 
-
+        [ForeignKey("OrderStatusID")]
+        public int OrderStatusID { get; set; }
+        public OrderStatus OrderStatus { get; set; }
     }
 }

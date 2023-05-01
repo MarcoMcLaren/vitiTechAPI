@@ -16,9 +16,7 @@ namespace API.Model
 
         public DateTime Date_of_last_update { get; set; }
 
-        [ForeignKey("CityID")]
-        public int CityID { get; set; }
-        public City City { get; set; }
+        public string City { get; set; }
 
         [ForeignKey("CustomerID")]
         public int? CustomerID { get; set; }

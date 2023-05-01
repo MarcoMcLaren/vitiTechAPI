@@ -13,7 +13,8 @@ namespace API.Model
         public int StockTakeID { get; set; }
         public StockTake StockTake { get; set; }
 
+        //inventory ID ????
 
-        public int Stocktake_Difference { get; set; }
+        public int QuantityCounted { get; set; }
     }
 }

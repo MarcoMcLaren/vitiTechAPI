@@ -19,5 +19,7 @@ namespace API.Model
         public Customer Customer { get; set; }
 
         public List<SuperUser> SuperUsers { get; set; }
+
+        public Employee Employee { get; set; }
     }
 }
