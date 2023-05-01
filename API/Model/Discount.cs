@@ -8,12 +8,12 @@ namespace API.Model
         public int DiscountID { get; set; }
 
         [MaxLength(50)]
-        public string Discount_Code { get; set; }
+        public string DiscountCode { get; set; }
 
         [MaxLength(50)]
-        public string Discount_Type { get; set; }
+        public string DiscountType { get; set; }
 
-        public double Discount_Amount { get; set; }
+        public double DiscountAmount { get; set; }
 
         public List<WineDiscount> WineDiscounts { get; set; }
     }

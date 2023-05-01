@@ -14,6 +14,9 @@ namespace API.Model
 
         public DateTime ExpiredDate { get; set; }
 
+        [MaxLength(255)]
+        public string QRCode { get; set; }
+
         [ForeignKey("BookingID")]
         public int BookingId { get; set; }
         public Booking Booking { get; set; }

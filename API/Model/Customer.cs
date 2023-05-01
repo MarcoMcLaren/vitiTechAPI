@@ -44,5 +44,7 @@ namespace API.Model
 
         public List<Address> Addresses { get; set; }
 
+        public List<Order> Orders { get; set; }
+
     }
 }

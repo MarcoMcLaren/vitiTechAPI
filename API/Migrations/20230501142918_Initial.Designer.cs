@@ -12,53 +12,48 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    [Migration("20230415181911_klsdjksdjs")]
-    partial class klsdjksdjs
+    [Migration("20230501142918_Initial")]
+    partial class Initial
     {
-        /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.5")
+                .HasAnnotation("ProductVersion", "6.0.15")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
-            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("API.Model.Admin", b =>
+            modelBuilder.Entity("API.Model.Address", b =>
                 {
-                    b.Property<int>("AdminID")
+                    b.Property<int>("AddressID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AdminID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AddressID"), 1L, 1);
 
-                    b.Property<string>("Email")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                    b.Property<string>("City")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("First_Name")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                    b.Property<int?>("CustomerID")
+                        .HasColumnType("int");
 
-                    b.Property<DateTime>("Hire_Date")
+                    b.Property<DateTime>("Date_of_last_update")
                         .HasColumnType("datetime2");
 
-                    b.Property<long>("ID_Number")
-                        .HasMaxLength(13)
-                        .HasColumnType("bigint");
+                    b.Property<string>("Postal_Code")
+                        .HasMaxLength(4)
+                        .HasColumnType("nvarchar(4)");
 
-                    b.Property<string>("Last_Name")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                    b.Property<string>("Street_Address")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
-                    b.Property<string>("Phone_Number")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                    b.HasKey("AddressID");
 
-                    b.HasKey("AdminID");
+                    b.HasIndex("CustomerID");
 
-                    b.ToTable("Admins");
+                    b.ToTable("Addresses");
                 });
 
             modelBuilder.Entity("API.Model.Blacklist", b =>
@@ -67,7 +62,7 @@ namespace API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserID"), 1L, 1);
 
                     b.Property<string>("Reason")
                         .HasMaxLength(255)
@@ -84,12 +79,22 @@ namespace API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BookingID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BookingID"), 1L, 1);
 
                     b.Property<DateTime>("BookingDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("CustomerId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("EventId")
+                        .HasColumnType("int");
+
                     b.HasKey("BookingID");
+
+                    b.HasIndex("CustomerId");
+
+                    b.HasIndex("EventId");
 
                     b.ToTable("Bookings");
                 });
@@ -100,7 +105,10 @@ namespace API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PaymentID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PaymentID"), 1L, 1);
+
+                    b.Property<int>("BookingId")
+                        .HasColumnType("int");
 
                     b.Property<double>("PaymentAmount")
                         .HasColumnType("float");
@@ -110,47 +118,10 @@ namespace API.Migrations
 
                     b.HasKey("PaymentID");
 
+                    b.HasIndex("BookingId")
+                        .IsUnique();
+
                     b.ToTable("BookingPayments");
-                });
-
-            modelBuilder.Entity("API.Model.City", b =>
-                {
-                    b.Property<int>("CityID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CityID"));
-
-                    b.Property<DateTime>("Date_of_last_update")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
-                    b.HasKey("CityID");
-
-                    b.ToTable("Cities");
-                });
-
-            modelBuilder.Entity("API.Model.Country", b =>
-                {
-                    b.Property<int>("CountryID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CountryID"));
-
-                    b.Property<DateTime>("Date_of_last_update")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
-                    b.HasKey("CountryID");
-
-                    b.ToTable("Countries");
                 });
 
             modelBuilder.Entity("API.Model.Customer", b =>
@@ -159,7 +130,7 @@ namespace API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CustomerID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CustomerID"), 1L, 1);
 
                     b.Property<DateTime>("Date_Created")
                         .HasColumnType("datetime2");
@@ -206,16 +177,16 @@ namespace API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DiscountID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DiscountID"), 1L, 1);
 
-                    b.Property<double>("Discount_Amount")
+                    b.Property<double>("DiscountAmount")
                         .HasColumnType("float");
 
-                    b.Property<string>("Discount_Code")
+                    b.Property<string>("DiscountCode")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<string>("Discount_Type")
+                    b.Property<string>("DiscountType")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
@@ -230,7 +201,7 @@ namespace API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EarlyBirdID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EarlyBirdID"), 1L, 1);
 
                     b.Property<int>("Limit")
                         .HasColumnType("int");
@@ -249,7 +220,7 @@ namespace API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EmployeeID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EmployeeID"), 1L, 1);
 
                     b.Property<string>("Email")
                         .HasMaxLength(50)
@@ -274,7 +245,13 @@ namespace API.Migrations
                         .HasMaxLength(10)
                         .HasColumnType("nvarchar(10)");
 
+                    b.Property<int>("UserID")
+                        .HasColumnType("int");
+
                     b.HasKey("EmployeeID");
+
+                    b.HasIndex("UserID")
+                        .IsUnique();
 
                     b.ToTable("Employees");
                 });
@@ -285,7 +262,7 @@ namespace API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EventID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EventID"), 1L, 1);
 
                     b.Property<string>("Description")
                         .HasMaxLength(255)
@@ -301,17 +278,28 @@ namespace API.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
+                    b.Property<int>("EventPriceID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("EventTypeID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Image_URL")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
                     b.Property<int>("Tickets_Available")
                         .HasColumnType("int");
 
                     b.Property<int>("Tickets_Sold")
                         .HasColumnType("int");
 
-                    b.Property<string>("image_URL")
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
                     b.HasKey("EventID");
+
+                    b.HasIndex("EventPriceID")
+                        .IsUnique();
+
+                    b.HasIndex("EventTypeID");
 
                     b.ToTable("Events");
                 });
@@ -322,7 +310,7 @@ namespace API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EventLocationID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EventLocationID"), 1L, 1);
 
                     b.Property<DateTime>("Date_of_last_update")
                         .HasColumnType("datetime2");
@@ -346,10 +334,13 @@ namespace API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EventPriceID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EventPriceID"), 1L, 1);
 
                     b.Property<double>("Amount")
                         .HasColumnType("float");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("EventPriceID");
 
@@ -362,11 +353,14 @@ namespace API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EventReviewID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EventReviewID"), 1L, 1);
 
                     b.Property<string>("Comment")
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
+
+                    b.Property<int?>("CustomerID")
+                        .HasColumnType("int");
 
                     b.Property<int>("Rating")
                         .HasColumnType("int");
@@ -375,6 +369,8 @@ namespace API.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("EventReviewID");
+
+                    b.HasIndex("CustomerID");
 
                     b.ToTable("EventReviews");
                 });
@@ -385,7 +381,7 @@ namespace API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EventTypeID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EventTypeID"), 1L, 1);
 
                     b.Property<string>("EventDescription")
                         .HasMaxLength(255)
@@ -406,7 +402,7 @@ namespace API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("FAQID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("FAQID"), 1L, 1);
 
                     b.Property<string>("Answer")
                         .HasMaxLength(255)
@@ -427,12 +423,12 @@ namespace API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("InventoryID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("InventoryID"), 1L, 1);
 
-                    b.Property<int>("Quantity_On_Hand")
+                    b.Property<int>("QuantityOnHand")
                         .HasColumnType("int");
 
-                    b.Property<int>("Stock_Limit")
+                    b.Property<int>("StockLimit")
                         .HasColumnType("int");
 
                     b.Property<int?>("WineID")
@@ -451,7 +447,13 @@ namespace API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderID"), 1L, 1);
+
+                    b.Property<int>("CustomerID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("OrderStatusID")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("Order_Date")
                         .HasColumnType("datetime2");
@@ -460,6 +462,10 @@ namespace API.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("OrderID");
+
+                    b.HasIndex("CustomerID");
+
+                    b.HasIndex("OrderStatusID");
 
                     b.ToTable("Orders");
                 });
@@ -470,7 +476,7 @@ namespace API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderItemID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderItemID"), 1L, 1);
 
                     b.Property<int>("OrderID")
                         .HasColumnType("int");
@@ -485,8 +491,7 @@ namespace API.Migrations
 
                     b.HasIndex("OrderID");
 
-                    b.HasIndex("WineID")
-                        .IsUnique();
+                    b.HasIndex("WineID");
 
                     b.ToTable("OrderItems");
                 });
@@ -497,7 +502,7 @@ namespace API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PaymentID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PaymentID"), 1L, 1);
 
                     b.Property<double>("Amount")
                         .HasColumnType("float");
@@ -525,7 +530,7 @@ namespace API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderStatusID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderStatusID"), 1L, 1);
 
                     b.Property<string>("OrderStatusName")
                         .HasColumnType("nvarchar(max)");
@@ -535,21 +540,40 @@ namespace API.Migrations
                     b.ToTable("OrderStatus");
                 });
 
+            modelBuilder.Entity("API.Model.Province", b =>
+                {
+                    b.Property<int>("ProvinceID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProvinceID"), 1L, 1);
+
+                    b.Property<DateTime>("Date_of_last_update")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ProvinceName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ProvinceID");
+
+                    b.ToTable("Provinces");
+                });
+
             modelBuilder.Entity("API.Model.Refund", b =>
                 {
                     b.Property<int>("RefundID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RefundID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RefundID"), 1L, 1);
 
-                    b.Property<DateTime>("Date_Issued")
+                    b.Property<DateTime>("DateIssued")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("OrderItemID")
                         .HasColumnType("int");
 
-                    b.Property<int>("Quantity_Refunded")
+                    b.Property<int>("QuantityRefunded")
                         .HasColumnType("int");
 
                     b.Property<int>("RefundReasonID")
@@ -558,7 +582,7 @@ namespace API.Migrations
                     b.Property<int>("RefundResponseID")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("Resolved_Date")
+                    b.Property<DateTime?>("ResolvedDate")
                         .HasColumnType("datetime2");
 
                     b.HasKey("RefundID");
@@ -578,7 +602,7 @@ namespace API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RefundReasonID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RefundReasonID"), 1L, 1);
 
                     b.Property<string>("Description")
                         .HasMaxLength(255)
@@ -600,7 +624,7 @@ namespace API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RefundResponseID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RefundResponseID"), 1L, 1);
 
                     b.Property<string>("Description")
                         .HasMaxLength(255)
@@ -621,7 +645,7 @@ namespace API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RefundTypeID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RefundTypeID"), 1L, 1);
 
                     b.Property<string>("Description")
                         .HasMaxLength(255)
@@ -632,33 +656,13 @@ namespace API.Migrations
                     b.ToTable("RefundTypes");
                 });
 
-            modelBuilder.Entity("API.Model.Region", b =>
-                {
-                    b.Property<int>("RegionID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RegionID"));
-
-                    b.Property<DateTime>("Date_of_last_update")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
-                    b.HasKey("RegionID");
-
-                    b.ToTable("Regions");
-                });
-
             modelBuilder.Entity("API.Model.ShippingDetails", b =>
                 {
                     b.Property<int>("ShippingID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ShippingID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ShippingID"), 1L, 1);
 
                     b.Property<int>("OrderID")
                         .HasColumnType("int");
@@ -684,7 +688,7 @@ namespace API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("StockTakeID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("StockTakeID"), 1L, 1);
 
                     b.Property<DateTime>("StockTake_Date")
                         .HasColumnType("datetime2");
@@ -704,15 +708,15 @@ namespace API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("StockTake_ItemID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("StockTake_ItemID"), 1L, 1);
 
                     b.Property<int?>("InventoryID")
                         .HasColumnType("int");
 
-                    b.Property<int>("StockTakeID")
+                    b.Property<int>("QuantityCounted")
                         .HasColumnType("int");
 
-                    b.Property<int>("Stocktake_Difference")
+                    b.Property<int>("StockTakeID")
                         .HasColumnType("int");
 
                     b.HasKey("StockTake_ItemID");
@@ -724,13 +728,64 @@ namespace API.Migrations
                     b.ToTable("StockTakeItems");
                 });
 
+            modelBuilder.Entity("API.Model.SuperUser", b =>
+                {
+                    b.Property<int>("SuperUserID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SuperUserID"), 1L, 1);
+
+                    b.Property<int>("AddressID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("First_Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<DateTime>("Hire_Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ID_Number")
+                        .IsRequired()
+                        .HasMaxLength(13)
+                        .HasColumnType("nvarchar(13)");
+
+                    b.Property<string>("Last_Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("Phone_Number")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<int>("UserID")
+                        .HasColumnType("int");
+
+                    b.HasKey("SuperUserID");
+
+                    b.HasIndex("AddressID");
+
+                    b.HasIndex("UserID");
+
+                    b.ToTable("SuperUser");
+                });
+
             modelBuilder.Entity("API.Model.Supplier", b =>
                 {
                     b.Property<int>("SupplierID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SupplierID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SupplierID"), 1L, 1);
 
                     b.Property<string>("Email")
                         .HasMaxLength(50)
@@ -755,7 +810,7 @@ namespace API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SupplierOrderID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SupplierOrderID"), 1L, 1);
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
@@ -787,7 +842,7 @@ namespace API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SupplierPaymentID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SupplierPaymentID"), 1L, 1);
 
                     b.Property<double>("AmountPaid")
                         .HasColumnType("float");
@@ -806,13 +861,32 @@ namespace API.Migrations
                     b.ToTable("SupplierPayments");
                 });
 
+            modelBuilder.Entity("API.Model.SystemPrivilege", b =>
+                {
+                    b.Property<int>("SystemPrivilegeID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SystemPrivilegeID"), 1L, 1);
+
+                    b.Property<string>("SystemPrivilegeDescription")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("SystemPrivilegeID");
+
+                    b.ToTable("SystemPrivileges");
+                });
+
             modelBuilder.Entity("API.Model.Ticket", b =>
                 {
                     b.Property<int>("TicketID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TicketID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TicketID"), 1L, 1);
+
+                    b.Property<int>("BookingId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("ExpiredDate")
                         .HasColumnType("datetime2");
@@ -820,10 +894,16 @@ namespace API.Migrations
                     b.Property<DateTime>("PurchaseDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("QRCode")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
                     b.Property<double>("TicketPrice")
                         .HasColumnType("float");
 
                     b.HasKey("TicketID");
+
+                    b.HasIndex("BookingId");
 
                     b.ToTable("Tickets");
                 });
@@ -834,7 +914,10 @@ namespace API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserID"), 1L, 1);
+
+                    b.Property<int?>("CustomerID")
+                        .HasColumnType("int");
 
                     b.Property<string>("UserEmail")
                         .HasMaxLength(50)
@@ -846,26 +929,9 @@ namespace API.Migrations
 
                     b.HasKey("UserID");
 
+                    b.HasIndex("CustomerID");
+
                     b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("API.Model.VAT", b =>
-                {
-                    b.Property<int>("VATID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("VATID"));
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<double>("Percentage")
-                        .HasColumnType("float");
-
-                    b.HasKey("VATID");
-
-                    b.ToTable("VATs");
                 });
 
             modelBuilder.Entity("API.Model.Varietal", b =>
@@ -874,7 +940,7 @@ namespace API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("VarietalID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("VarietalID"), 1L, 1);
 
                     b.Property<string>("Description")
                         .HasMaxLength(255)
@@ -889,50 +955,72 @@ namespace API.Migrations
                     b.ToTable("Varietals");
                 });
 
+            modelBuilder.Entity("API.Model.VAT", b =>
+                {
+                    b.Property<int>("VATID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("VATID"), 1L, 1);
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<double>("Percentage")
+                        .HasColumnType("float");
+
+                    b.HasKey("VATID");
+
+                    b.ToTable("VATs");
+                });
+
             modelBuilder.Entity("API.Model.Wine", b =>
                 {
                     b.Property<int>("WineID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("WineID"));
-
-                    b.Property<int>("AdminID")
-                        .HasColumnType("int");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("WineID"), 1L, 1);
 
                     b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("OrderItemID")
+                    b.Property<int>("EmployeeID")
                         .HasColumnType("int");
 
-                    b.Property<int>("Restock_Limit")
+                    b.Property<string>("ImageUrl")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<int>("RestockLimit")
                         .HasColumnType("int");
 
                     b.Property<int>("VarietalID")
                         .HasColumnType("int");
 
                     b.Property<string>("Vintage")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
-                    b.Property<int>("WinePriceID")
-                        .HasColumnType("int");
+                    b.Property<double>("WinePrice")
+                        .HasColumnType("float");
+
+                    b.Property<string>("WineTastingNote")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<int>("WineTypeID")
                         .HasColumnType("int");
 
-                    b.Property<string>("WinetastingNote")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("image_URL")
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("WineID");
 
-                    b.HasIndex("AdminID");
+                    b.HasIndex("EmployeeID");
 
                     b.HasIndex("VarietalID");
 
@@ -947,7 +1035,7 @@ namespace API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("WineDiscountID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("WineDiscountID"), 1L, 1);
 
                     b.Property<int>("DiscountID")
                         .HasColumnType("int");
@@ -970,35 +1058,13 @@ namespace API.Migrations
                     b.ToTable("WineDiscounts");
                 });
 
-            modelBuilder.Entity("API.Model.WinePrice", b =>
-                {
-                    b.Property<int>("WinePriceID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("WinePriceID"));
-
-                    b.Property<double>("Price")
-                        .HasColumnType("float");
-
-                    b.Property<int>("WineID")
-                        .HasColumnType("int");
-
-                    b.HasKey("WinePriceID");
-
-                    b.HasIndex("WineID")
-                        .IsUnique();
-
-                    b.ToTable("WinePrices");
-                });
-
             modelBuilder.Entity("API.Model.WineType", b =>
                 {
                     b.Property<int>("WineTypeID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("WineTypeID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("WineTypeID"), 1L, 1);
 
                     b.Property<string>("Description")
                         .HasMaxLength(255)
@@ -1019,7 +1085,7 @@ namespace API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("WishlistID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("WishlistID"), 1L, 1);
 
                     b.Property<int>("CustomerID")
                         .HasColumnType("int");
@@ -1038,7 +1104,7 @@ namespace API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("WishlistItemID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("WishlistItemID"), 1L, 1);
 
                     b.Property<int>("WineID")
                         .HasColumnType("int");
@@ -1061,14 +1127,44 @@ namespace API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("WriteOffID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("WriteOffID"), 1L, 1);
+
+                    b.Property<int>("EmployeeID")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("WriteOff_Date")
                         .HasColumnType("datetime2");
 
                     b.HasKey("WriteOffID");
 
+                    b.HasIndex("EmployeeID");
+
                     b.ToTable("WriteOffs");
+                });
+
+            modelBuilder.Entity("API.Model.WriteOff_Reason", b =>
+                {
+                    b.Property<int>("WriteOff_ReasonID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("WriteOff_ReasonID"), 1L, 1);
+
+                    b.Property<DateTime>("Date_of_last_update")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<int>("WriteOffItemID")
+                        .HasColumnType("int");
+
+                    b.HasKey("WriteOff_ReasonID");
+
+                    b.HasIndex("WriteOffItemID");
+
+                    b.ToTable("WriteOffReasons");
                 });
 
             modelBuilder.Entity("API.Model.WriteOffItem", b =>
@@ -1077,7 +1173,7 @@ namespace API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("WriteOffItemID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("WriteOffItemID"), 1L, 1);
 
                     b.Property<int>("WineID")
                         .HasColumnType("int");
@@ -1097,42 +1193,117 @@ namespace API.Migrations
 
                     b.HasIndex("WriteOffID");
 
+                    b.HasIndex("WriteOffReasonID");
+
                     b.ToTable("WriteOffItems");
                 });
 
-            modelBuilder.Entity("API.Model.WriteOff_Reason", b =>
+            modelBuilder.Entity("API.Model.Address", b =>
                 {
-                    b.Property<int>("WriteOff_ReasonID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                    b.HasOne("API.Model.Customer", "Customer")
+                        .WithMany("Addresses")
+                        .HasForeignKey("CustomerID")
+                        .OnDelete(DeleteBehavior.SetNull);
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("WriteOff_ReasonID"));
+                    b.Navigation("Customer");
+                });
 
-                    b.Property<DateTime>("Date_of_last_update")
-                        .HasColumnType("datetime2");
+            modelBuilder.Entity("API.Model.Booking", b =>
+                {
+                    b.HasOne("API.Model.Customer", "Customer")
+                        .WithMany("Bookings")
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.SetNull);
 
-                    b.Property<string>("Description")
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                    b.HasOne("API.Model.Event", "Event")
+                        .WithMany("Bookings")
+                        .HasForeignKey("EventId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Property<int>("WriteOffItemID")
-                        .HasColumnType("int");
+                    b.Navigation("Customer");
 
-                    b.HasKey("WriteOff_ReasonID");
+                    b.Navigation("Event");
+                });
 
-                    b.HasIndex("WriteOffItemID")
-                        .IsUnique();
+            modelBuilder.Entity("API.Model.BookingPayment", b =>
+                {
+                    b.HasOne("API.Model.Booking", "Booking")
+                        .WithOne("BookingPayment")
+                        .HasForeignKey("API.Model.BookingPayment", "BookingId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.ToTable("WriteOffReasons");
+                    b.Navigation("Booking");
+                });
+
+            modelBuilder.Entity("API.Model.Employee", b =>
+                {
+                    b.HasOne("API.Model.User", "User")
+                        .WithOne("Employee")
+                        .HasForeignKey("API.Model.Employee", "UserID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("API.Model.Event", b =>
+                {
+                    b.HasOne("API.Model.EventPrice", "EventPrice")
+                        .WithOne("Event")
+                        .HasForeignKey("API.Model.Event", "EventPriceID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("API.Model.EventType", "EventType")
+                        .WithMany("Events")
+                        .HasForeignKey("EventTypeID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("EventPrice");
+
+                    b.Navigation("EventType");
+                });
+
+            modelBuilder.Entity("API.Model.EventReview", b =>
+                {
+                    b.HasOne("API.Model.Customer", "Customer")
+                        .WithMany("EventReviews")
+                        .HasForeignKey("CustomerID")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.Navigation("Customer");
                 });
 
             modelBuilder.Entity("API.Model.Inventory", b =>
                 {
                     b.HasOne("API.Model.Wine", "Wine")
                         .WithMany("Inventories")
-                        .HasForeignKey("WineID");
+                        .HasForeignKey("WineID")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Wine");
+                });
+
+            modelBuilder.Entity("API.Model.Order", b =>
+                {
+                    b.HasOne("API.Model.Customer", "Customer")
+                        .WithMany("Orders")
+                        .HasForeignKey("CustomerID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("API.Model.OrderStatus", "OrderStatus")
+                        .WithMany("Orders")
+                        .HasForeignKey("OrderStatusID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Customer");
+
+                    b.Navigation("OrderStatus");
                 });
 
             modelBuilder.Entity("API.Model.OrderItem", b =>
@@ -1144,9 +1315,9 @@ namespace API.Migrations
                         .IsRequired();
 
                     b.HasOne("API.Model.Wine", "Wine")
-                        .WithOne("OrderItem")
-                        .HasForeignKey("API.Model.OrderItem", "WineID")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .WithMany("OrderItems")
+                        .HasForeignKey("WineID")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Order");
@@ -1159,7 +1330,7 @@ namespace API.Migrations
                     b.HasOne("API.Model.Order", "Order")
                         .WithOne("OrderPayment")
                         .HasForeignKey("API.Model.OrderPayment", "OrderID")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Order");
@@ -1229,18 +1400,37 @@ namespace API.Migrations
                     b.Navigation("StockTake");
                 });
 
+            modelBuilder.Entity("API.Model.SuperUser", b =>
+                {
+                    b.HasOne("API.Model.Address", "Address")
+                        .WithMany("SuperUsers")
+                        .HasForeignKey("AddressID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("API.Model.User", "User")
+                        .WithMany("SuperUsers")
+                        .HasForeignKey("UserID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Address");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("API.Model.SupplierOrder", b =>
                 {
                     b.HasOne("API.Model.Supplier", "Supplier")
                         .WithMany("SupplierOrders")
                         .HasForeignKey("SupplierID")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("API.Model.Wine", "Wine")
                         .WithMany("SupplierOrders")
                         .HasForeignKey("WineID")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Supplier");
@@ -1259,12 +1449,33 @@ namespace API.Migrations
                     b.Navigation("SupplierOrder");
                 });
 
+            modelBuilder.Entity("API.Model.Ticket", b =>
+                {
+                    b.HasOne("API.Model.Booking", "Booking")
+                        .WithMany("Tickets")
+                        .HasForeignKey("BookingId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Booking");
+                });
+
+            modelBuilder.Entity("API.Model.User", b =>
+                {
+                    b.HasOne("API.Model.Customer", "Customer")
+                        .WithMany("Users")
+                        .HasForeignKey("CustomerID")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.Navigation("Customer");
+                });
+
             modelBuilder.Entity("API.Model.Wine", b =>
                 {
-                    b.HasOne("API.Model.Admin", "Admin")
+                    b.HasOne("API.Model.Employee", "Employee")
                         .WithMany("Wines")
-                        .HasForeignKey("AdminID")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .HasForeignKey("EmployeeID")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("API.Model.Varietal", "Varietal")
@@ -1279,7 +1490,7 @@ namespace API.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("Admin");
+                    b.Navigation("Employee");
 
                     b.Navigation("Varietal");
 
@@ -1301,17 +1512,6 @@ namespace API.Migrations
                         .IsRequired();
 
                     b.Navigation("Discount");
-
-                    b.Navigation("Wine");
-                });
-
-            modelBuilder.Entity("API.Model.WinePrice", b =>
-                {
-                    b.HasOne("API.Model.Wine", "Wine")
-                        .WithOne("WinePrice")
-                        .HasForeignKey("API.Model.WinePrice", "WineID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
 
                     b.Navigation("Wine");
                 });
@@ -1346,12 +1546,34 @@ namespace API.Migrations
                     b.Navigation("Wishlist");
                 });
 
+            modelBuilder.Entity("API.Model.WriteOff", b =>
+                {
+                    b.HasOne("API.Model.Employee", "Employee")
+                        .WithMany("WriteOffs")
+                        .HasForeignKey("EmployeeID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Employee");
+                });
+
+            modelBuilder.Entity("API.Model.WriteOff_Reason", b =>
+                {
+                    b.HasOne("API.Model.WriteOffItem", "WriteOffItem")
+                        .WithMany()
+                        .HasForeignKey("WriteOffItemID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("WriteOffItem");
+                });
+
             modelBuilder.Entity("API.Model.WriteOffItem", b =>
                 {
                     b.HasOne("API.Model.Wine", "Wine")
                         .WithMany("WriteOffItems")
                         .HasForeignKey("WineID")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("API.Model.WriteOff", "WriteOff")
@@ -1360,35 +1582,71 @@ namespace API.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("API.Model.WriteOff_Reason", "WriteOff_Reason")
+                        .WithMany("WriteOffItems")
+                        .HasForeignKey("WriteOffReasonID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.Navigation("Wine");
 
                     b.Navigation("WriteOff");
+
+                    b.Navigation("WriteOff_Reason");
                 });
 
-            modelBuilder.Entity("API.Model.WriteOff_Reason", b =>
+            modelBuilder.Entity("API.Model.Address", b =>
                 {
-                    b.HasOne("API.Model.WriteOffItem", "WriteOffItem")
-                        .WithOne("WriteOff_Reason")
-                        .HasForeignKey("API.Model.WriteOff_Reason", "WriteOffItemID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("WriteOffItem");
+                    b.Navigation("SuperUsers");
                 });
 
-            modelBuilder.Entity("API.Model.Admin", b =>
+            modelBuilder.Entity("API.Model.Booking", b =>
                 {
-                    b.Navigation("Wines");
+                    b.Navigation("BookingPayment");
+
+                    b.Navigation("Tickets");
                 });
 
             modelBuilder.Entity("API.Model.Customer", b =>
                 {
+                    b.Navigation("Addresses");
+
+                    b.Navigation("Bookings");
+
+                    b.Navigation("EventReviews");
+
+                    b.Navigation("Orders");
+
+                    b.Navigation("Users");
+
                     b.Navigation("Wishlist");
                 });
 
             modelBuilder.Entity("API.Model.Discount", b =>
                 {
                     b.Navigation("WineDiscounts");
+                });
+
+            modelBuilder.Entity("API.Model.Employee", b =>
+                {
+                    b.Navigation("Wines");
+
+                    b.Navigation("WriteOffs");
+                });
+
+            modelBuilder.Entity("API.Model.Event", b =>
+                {
+                    b.Navigation("Bookings");
+                });
+
+            modelBuilder.Entity("API.Model.EventPrice", b =>
+                {
+                    b.Navigation("Event");
+                });
+
+            modelBuilder.Entity("API.Model.EventType", b =>
+                {
+                    b.Navigation("Events");
                 });
 
             modelBuilder.Entity("API.Model.Inventory", b =>
@@ -1408,6 +1666,11 @@ namespace API.Migrations
             modelBuilder.Entity("API.Model.OrderItem", b =>
                 {
                     b.Navigation("Refunds");
+                });
+
+            modelBuilder.Entity("API.Model.OrderStatus", b =>
+                {
+                    b.Navigation("Orders");
                 });
 
             modelBuilder.Entity("API.Model.RefundReason", b =>
@@ -1440,6 +1703,13 @@ namespace API.Migrations
                     b.Navigation("SupplierPayment");
                 });
 
+            modelBuilder.Entity("API.Model.User", b =>
+                {
+                    b.Navigation("Employee");
+
+                    b.Navigation("SuperUsers");
+                });
+
             modelBuilder.Entity("API.Model.Varietal", b =>
                 {
                     b.Navigation("Wines");
@@ -1449,13 +1719,11 @@ namespace API.Migrations
                 {
                     b.Navigation("Inventories");
 
-                    b.Navigation("OrderItem");
+                    b.Navigation("OrderItems");
 
                     b.Navigation("SupplierOrders");
 
                     b.Navigation("WineDiscounts");
-
-                    b.Navigation("WinePrice");
 
                     b.Navigation("WishlistItems");
 
@@ -1477,9 +1745,9 @@ namespace API.Migrations
                     b.Navigation("WriteOffItems");
                 });
 
-            modelBuilder.Entity("API.Model.WriteOffItem", b =>
+            modelBuilder.Entity("API.Model.WriteOff_Reason", b =>
                 {
-                    b.Navigation("WriteOff_Reason");
+                    b.Navigation("WriteOffItems");
                 });
 #pragma warning restore 612, 618
         }

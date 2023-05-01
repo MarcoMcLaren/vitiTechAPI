@@ -8,9 +8,9 @@ namespace API.Model
         [Key]
         public int RefundID { get; set; }
 
-        public int Quantity_Refunded { get; set; }
-        public DateTime Date_Issued { get; set; }
-        public DateTime? Resolved_Date { get; set; }
+        public int QuantityRefunded { get; set; }
+        public DateTime DateIssued { get; set; }
+        public DateTime? ResolvedDate { get; set; }
 
         [ForeignKey("OrderItemID")]
         public int OrderItemID { get; set; }

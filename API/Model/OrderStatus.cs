@@ -8,5 +8,7 @@ namespace API.Model
         public int OrderStatusID { get; set; }
 
         public string OrderStatusName { get; set; }
+
+        public List<Order> Orders { get; set; }
     }
 }
