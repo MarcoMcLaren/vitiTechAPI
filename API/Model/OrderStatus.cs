@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace API.Model
 {
@@ -9,6 +10,7 @@ namespace API.Model
 
         public string OrderStatusName { get; set; }
 
+        [JsonIgnore]
         public List<Order> Orders { get; set; }
     }
 }

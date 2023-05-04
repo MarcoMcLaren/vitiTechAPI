@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace API.Model
 {
@@ -10,11 +11,13 @@ namespace API.Model
 
         public DateTime WriteOff_Date { get; set; }
 
+        [JsonIgnore]
         public List<WriteOffItem> WriteOffItems { get; set; }
 
         [ForeignKey("EmployeeID")]
         public int EmployeeID { get; set; }
 
+        [JsonIgnore]
         public Employee Employee { get; set; }
     }
 }

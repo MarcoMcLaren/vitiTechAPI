@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace API.Model
 {
@@ -36,14 +37,15 @@ namespace API.Model
 
         public Wishlist Wishlist { get; set; }
 
+        [JsonIgnore]
         public List<Booking> Bookings { get; set; }
-
+        [JsonIgnore]
         public List<EventReview> EventReviews { get; set; }
-
+        [JsonIgnore]
         public List<User> Users { get; set; }
-
+        [JsonIgnore]
         public List<Address> Addresses { get; set; }
-
+        [JsonIgnore]
         public List<Order> Orders { get; set; }
 
     }

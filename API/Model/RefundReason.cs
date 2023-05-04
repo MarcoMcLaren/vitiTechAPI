@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace API.Model
 {
@@ -15,6 +16,7 @@ namespace API.Model
         public int RefundTypeID { get; set; }
         public RefundType RefundType { get; set; }
 
+        [JsonIgnore]
         public List<Refund> Refunds { get; set; }
 
 

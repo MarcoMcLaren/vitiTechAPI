@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace API.Model
 {
@@ -12,6 +13,7 @@ namespace API.Model
         public int CustomerID { get; set; }
         public Customer Customer { get; set; }
 
+        [JsonIgnore]
         public List<WishlistItem> WishlistItems { get; set; }
     }
 }

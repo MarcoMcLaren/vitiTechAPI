@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace API.Model
 {
@@ -16,6 +17,7 @@ namespace API.Model
         public int? WineID { get; set; }
         public Wine Wine { get; set; }
 
+        [JsonIgnore]
         public List<StockTake_Item> StockTake_Items { get; set; }
 
     }

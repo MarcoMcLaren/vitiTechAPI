@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace API.Model
 {
@@ -24,9 +25,9 @@ namespace API.Model
         public string ID_Number { get; set; }
 
         public DateTime Hire_Date { get; set; }
-
+        [JsonIgnore]
         public List<WriteOff> WriteOffs { get; set; }
-
+        [JsonIgnore]
         public List<Wine> Wines { get; set; }
 
         [ForeignKey("UserID")]

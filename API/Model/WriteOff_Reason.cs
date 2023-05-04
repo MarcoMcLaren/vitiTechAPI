@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace API.Model
 {
@@ -17,6 +18,7 @@ namespace API.Model
         public int WriteOffItemID { get; set; }
         public WriteOffItem WriteOffItem { get; set; }
 
+        [JsonIgnore]
         public List<WriteOffItem> WriteOffItems { get; set; }
     }
 }

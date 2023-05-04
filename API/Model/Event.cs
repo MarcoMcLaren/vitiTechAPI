@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace API.Model
 {
@@ -35,6 +36,7 @@ namespace API.Model
         public int EventTypeID { get; set; }
         public EventType EventType { get; set; }
 
+        [JsonIgnore]
         public List<Booking> Bookings { get; set; }
 
     }

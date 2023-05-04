@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace API.Model
 {
@@ -41,11 +42,22 @@ namespace API.Model
         public int EmployeeID { get; set; }
         public Employee Employee { get; set; }
 
+        [JsonIgnore]
         public List<Inventory> Inventories { get; set; }
+
+        [JsonIgnore]
         public List<WineDiscount> WineDiscounts { get; set; }
+
+        [JsonIgnore]
         public List<SupplierOrder> SupplierOrders { get; set; }
+
+        [JsonIgnore]
         public List<WriteOffItem> WriteOffItems { get; set; }
+
+        [JsonIgnore]
         public List<WishlistItem> WishlistItems { get; set; }
+
+        [JsonIgnore]
         public List<OrderItem> OrderItems { get; set; }
 
     }

@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace API.Model
 {
@@ -13,6 +14,7 @@ namespace API.Model
         [MaxLength(255)]
         public string EventDescription { get; set; }
 
+        [JsonIgnore]
         public List<Event> Events { get; set; }
     }
 }

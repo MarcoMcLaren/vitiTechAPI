@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace API.Model
 {
@@ -15,6 +16,7 @@ namespace API.Model
 
         public double DiscountAmount { get; set; }
 
+        [JsonIgnore]
         public List<WineDiscount> WineDiscounts { get; set; }
     }
 }
