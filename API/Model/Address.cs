@@ -6,6 +6,8 @@ namespace API.Model
 {
     public class Address
     {
+        //Love you
+
         [Key]
         public int AddressID { get; set; }
 
