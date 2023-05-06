@@ -19,6 +19,5 @@ namespace API.Model
         [JsonIgnore]
         public List<Refund> Refunds { get; set; }
 
-
     }
 }

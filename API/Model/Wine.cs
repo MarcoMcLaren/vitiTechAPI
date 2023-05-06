@@ -38,15 +38,12 @@ namespace API.Model
         public int VarietalID { get; set; }
         public Varietal Varietal { get; set; }
 
-        [ForeignKey("EmployeeID")]
-        public int EmployeeID { get; set; }
-        public Employee Employee { get; set; }
+        //[ForeignKey("EmployeeID")]
+        //public int EmployeeID { get; set; }
+        //public Employee Employee { get; set; }
 
         [JsonIgnore]
         public List<Inventory> Inventories { get; set; }
-
-        [JsonIgnore]
-        public List<WineDiscount> WineDiscounts { get; set; }
 
         [JsonIgnore]
         public List<SupplierOrder> SupplierOrders { get; set; }

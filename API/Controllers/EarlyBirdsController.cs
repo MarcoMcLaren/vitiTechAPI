@@ -12,47 +12,47 @@ namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class WineDiscountsController : ControllerBase
+    public class EarlyBirdsController : ControllerBase
     {
         private readonly MyDbContext _context;
 
-        public WineDiscountsController(MyDbContext context)
+        public EarlyBirdsController(MyDbContext context)
         {
             _context = context;
         }
 
-        // GET: api/WineDiscounts
+        // GET: api/EarlyBirds
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<WineDiscount>>> GetWineDiscounts()
+        public async Task<ActionResult<IEnumerable<EarlyBird>>> GetEarlyBird()
         {
-            return await _context.WineDiscounts.ToListAsync();
+            return await _context.EarlyBird.ToListAsync();
         }
 
-        // GET: api/WineDiscounts/5
+        // GET: api/EarlyBirds/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<WineDiscount>> GetWineDiscount(int id)
+        public async Task<ActionResult<EarlyBird>> GetEarlyBird(int id)
         {
-            var wineDiscount = await _context.WineDiscounts.FindAsync(id);
+            var earlyBird = await _context.EarlyBird.FindAsync(id);
 
-            if (wineDiscount == null)
+            if (earlyBird == null)
             {
                 return NotFound();
             }
 
-            return wineDiscount;
+            return earlyBird;
         }
 
-        // PUT: api/WineDiscounts/5
+        // PUT: api/EarlyBirds/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutWineDiscount(int id, WineDiscount wineDiscount)
+        public async Task<IActionResult> PutEarlyBird(int id, EarlyBird earlyBird)
         {
-            if (id != wineDiscount.WineDiscountID)
+            if (id != earlyBird.EarlyBirdID)
             {
                 return BadRequest();
             }
 
-            _context.Entry(wineDiscount).State = EntityState.Modified;
+            _context.Entry(earlyBird).State = EntityState.Modified;
 
             try
             {
@@ -60,7 +60,7 @@ namespace API.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!WineDiscountExists(id))
+                if (!EarlyBirdExists(id))
                 {
                     return NotFound();
                 }
@@ -73,36 +73,36 @@ namespace API.Controllers
             return NoContent();
         }
 
-        // POST: api/WineDiscounts
+        // POST: api/EarlyBirds
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<WineDiscount>> PostWineDiscount(WineDiscount wineDiscount)
+        public async Task<ActionResult<EarlyBird>> PostEarlyBird(EarlyBird earlyBird)
         {
-            _context.WineDiscounts.Add(wineDiscount);
+            _context.EarlyBird.Add(earlyBird);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetWineDiscount", new { id = wineDiscount.WineDiscountID }, wineDiscount);
+            return CreatedAtAction("GetEarlyBird", new { id = earlyBird.EarlyBirdID }, earlyBird);
         }
 
-        // DELETE: api/WineDiscounts/5
+        // DELETE: api/EarlyBirds/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteWineDiscount(int id)
+        public async Task<IActionResult> DeleteEarlyBird(int id)
         {
-            var wineDiscount = await _context.WineDiscounts.FindAsync(id);
-            if (wineDiscount == null)
+            var earlyBird = await _context.EarlyBird.FindAsync(id);
+            if (earlyBird == null)
             {
                 return NotFound();
             }
 
-            _context.WineDiscounts.Remove(wineDiscount);
+            _context.EarlyBird.Remove(earlyBird);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool WineDiscountExists(int id)
+        private bool EarlyBirdExists(int id)
         {
-            return _context.WineDiscounts.Any(e => e.WineDiscountID == id);
+            return _context.EarlyBird.Any(e => e.EarlyBirdID == id);
         }
     }
 }

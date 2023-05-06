@@ -12,11 +12,9 @@ namespace API.Model
         public string DiscountCode { get; set; }
 
         [MaxLength(50)]
-        public string DiscountType { get; set; }
+        public string DiscountDescription { get; set; }
 
         public double DiscountAmount { get; set; }
 
-        [JsonIgnore]
-        public List<WineDiscount> WineDiscounts { get; set; }
     }
 }

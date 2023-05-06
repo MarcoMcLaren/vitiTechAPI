@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace API.Model
 {
@@ -36,9 +37,18 @@ namespace API.Model
         public int UserID { get; set; }
         public User User { get; set; }
 
-        [ForeignKey("AddressID")]
+        [ForeignKey("SystemPrivilegeID")]
+        public int SystemPrivilegeID { get; set; }
+        public SystemPrivilege SystemPrivilege { get; set; }
+
+        [JsonIgnore]
+        public List<Employee> Employees { get; set; }
+
+        [ForeignKey("Address")]
         public int AddressID { get; set; }
         public Address Address { get; set; }
 
+        [JsonIgnore]
+        public List<EventLocation> EventLocations { get; set; }
     }
 }

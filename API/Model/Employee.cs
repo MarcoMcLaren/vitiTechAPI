@@ -33,5 +33,15 @@ namespace API.Model
         [ForeignKey("UserID")]
         public int UserID { get; set; }
         public User User { get; set; }
+
+        [ForeignKey("SystemPrivilegeID")]
+        public int SystemPrivilegeID { get; set; }
+        public SystemPrivilege SystemPrivilege { get; set; }
+
+        [ForeignKey("SuperUserID")]
+        public int SuperUserID { get; set; }
+        public SuperUser SuperUser { get; set; }
+
+        public Address Address { get; set; }
     }
 }

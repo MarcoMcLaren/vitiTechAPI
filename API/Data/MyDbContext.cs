@@ -20,10 +20,11 @@ namespace API.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<StockTake_Item>()
-             .HasOne(si => si.StockTake)
-             .WithMany(st => st.StockTake_Items)
-             .HasForeignKey(si => si.StockTakeID);
+            modelBuilder.Entity<StockTake>()
+            .HasMany<StockTake_Item>(s => s.StockTake_Items)
+            .WithOne(si => si.StockTake)
+            .HasForeignKey(si => si.StockTakeID)
+            .OnDelete(DeleteBehavior.Restrict);
 
             //Wine and Inventory
             modelBuilder.Entity<Inventory>()
@@ -33,11 +34,11 @@ namespace API.Data
             .OnDelete(DeleteBehavior.Restrict);
 
             //Wine and Employee
-            modelBuilder.Entity<Wine>()
-             .HasOne<Employee>(w => w.Employee)
-             .WithMany(e => e.Wines)
-             .HasForeignKey(w => w.EmployeeID)
-             .OnDelete(DeleteBehavior.Restrict);
+            //modelBuilder.Entity<Wine>()
+            // .HasOne<Employee>(w => w.Employee)
+            // .WithMany(e => e.Wines)
+            // .HasForeignKey(w => w.EmployeeID)
+            // .OnDelete(DeleteBehavior.Restrict);
 
             //Employee and User
             modelBuilder.Entity<Employee>()
@@ -60,16 +61,12 @@ namespace API.Data
              .HasForeignKey(o => o.OrderStatusID)
              .OnDelete(DeleteBehavior.Restrict);
 
-
-            modelBuilder.Entity<Wine>()
-            .HasMany(w => w.WineDiscounts)
-            .WithOne(wd => wd.Wine)
-            .HasForeignKey(wd => wd.WineID);
-
-            modelBuilder.Entity<WineDiscount>()
-            .HasOne<Discount>(wd => wd.Discount)
-            .WithMany(d => d.WineDiscounts)
-            .HasForeignKey(wd => wd.DiscountID);
+            //Inventory and stockTake_Item
+            modelBuilder.Entity<Inventory>()
+            .HasMany<StockTake_Item>(i => i.StockTake_Items)
+            .WithOne(s => s.Inventory)
+            .HasForeignKey(s => s.InventoryID)
+            .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Wine>()
             .HasMany(s => s.SupplierOrders)
@@ -86,7 +83,8 @@ namespace API.Data
             modelBuilder.Entity<SupplierOrder>()
              .HasOne(s => s.SupplierPayment)
              .WithOne(sp => sp.SupplierOrder)
-             .HasForeignKey<SupplierPayment>(sp => sp.SupplierOrderID);
+             .HasForeignKey<SupplierPayment>(sp => sp.SupplierOrderID)
+             .OnDelete(DeleteBehavior.Restrict);
 
             //Wine and WineType
             modelBuilder.Entity<Wine>()
@@ -99,7 +97,8 @@ namespace API.Data
             modelBuilder.Entity<Wine>()
             .HasOne(w => w.Varietal)
             .WithMany(v => v.Wines)
-            .HasForeignKey(w => w.VarietalID);
+            .HasForeignKey(w => w.VarietalID)
+            .OnDelete(DeleteBehavior.Restrict);
 
             //OrderItem and Order
             modelBuilder.Entity<OrderItem>()
@@ -115,39 +114,46 @@ namespace API.Data
              .HasForeignKey(oi => oi.WineID)
              .OnDelete(DeleteBehavior.Restrict);
 
+            //OrderItem and Refund
             modelBuilder.Entity<OrderItem>()
             .HasMany(o => o.Refunds)
             .WithOne(r => r.OrderItem)
-            .HasForeignKey(r => r.OrderItemID);
+            .HasForeignKey(r => r.OrderItemID)
+            .OnDelete(DeleteBehavior.Restrict);
 
+            //Refund and RefundResponse
             modelBuilder.Entity<Refund>()
             .HasOne(r => r.RefundResponse)
             .WithMany(rr => rr.Refunds)
-            .HasForeignKey(r => r.RefundResponseID);
+            .HasForeignKey(r => r.RefundResponseID)
+            .OnDelete(DeleteBehavior.Restrict);
 
+            //Refund and RefundReason
             modelBuilder.Entity<Refund>()
             .HasOne(r => r.RefundReason)
             .WithMany(rr => rr.Refunds)
             .HasForeignKey(r => r.RefundReasonID);
 
+            //RefundReason and RefundType
             modelBuilder.Entity<RefundReason>()
-             .HasOne(rr => rr.RefundType)
-             .WithMany(rt => rt.RefundReasons)
-             .HasForeignKey(rr => rr.RefundTypeID);
+            .HasOne(rr => rr.RefundType)
+            .WithMany(rt => rt.RefundReasons)
+            .HasForeignKey(rr => rr.RefundTypeID)
+            .OnDelete(DeleteBehavior.Restrict);
 
             //Wine and WriteOffItem
             modelBuilder.Entity<Wine>()
-                .HasMany(w => w.WriteOffItems)
-                .WithOne(wi => wi.Wine)
-                .HasForeignKey(wi => wi.WineID)
-                .OnDelete(DeleteBehavior.Restrict);
+             .HasMany(w => w.WriteOffItems)
+             .WithOne(wi => wi.Wine)
+             .HasForeignKey(wi => wi.WineID)
+             .OnDelete(DeleteBehavior.Restrict);
 
             //WriteOffReason and WriteOffItem
             modelBuilder.Entity<WriteOffItem>()
-                .HasOne<WriteOff_Reason>(woi => woi.WriteOff_Reason)
-                .WithMany(wor => wor.WriteOffItems)
-                .HasForeignKey(woi => woi.WriteOffReasonID)
-                .OnDelete(DeleteBehavior.Restrict);
+             .HasOne<WriteOff_Reason>(woi => woi.WriteOff_Reason)
+             .WithMany(wor => wor.WriteOffItems)
+             .HasForeignKey(woi => woi.WriteOffReasonID)
+             .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<WriteOff>()
             .HasMany(w => w.WriteOffItems)
@@ -156,16 +162,17 @@ namespace API.Data
 
             //WishlistItem and Wine
             modelBuilder.Entity<WishlistItem>()
-                 .HasOne(wli => wli.Wine)
-                .WithMany(w => w.WishlistItems)
-                .HasForeignKey(wli => wli.WineID)
-                .OnDelete(DeleteBehavior.Cascade);
+             .HasOne(wli => wli.Wine)
+             .WithMany(w => w.WishlistItems)
+             .HasForeignKey(wli => wli.WineID)
+             .OnDelete(DeleteBehavior.Cascade);
 
             //WishListitem and Wishlist
             modelBuilder.Entity<WishlistItem>()
             .HasOne(wli => wli.Wishlist)
             .WithMany(wl => wl.WishlistItems)
-            .HasForeignKey(wli => wli.WishlistID);
+            .HasForeignKey(wli => wli.WishlistID)
+            .OnDelete(DeleteBehavior.Cascade);
 
             //Customer and Wishlist
             modelBuilder.Entity<Wishlist>()
@@ -191,45 +198,50 @@ namespace API.Data
             modelBuilder.Entity<WriteOff>()
             .HasOne(w => w.Employee)
             .WithMany(e => e.WriteOffs)
-            .HasForeignKey(w => w.EmployeeID);
-       
+            .HasForeignKey(w => w.EmployeeID)
+            .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Event>()
             .HasOne(e => e.EventPrice)
             .WithOne(ep => ep.Event)
-            .HasForeignKey<Event>(e => e.EventPriceID);
+            .HasForeignKey<Event>(e => e.EventPriceID)
+            .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Event>()
             .HasOne(e => e.EventType)
             .WithMany(et => et.Events)
-            .HasForeignKey(e => e.EventTypeID);
+            .HasForeignKey(e => e.EventTypeID)
+            .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Booking>()
             .HasOne(b => b.Event)
             .WithMany(e => e.Bookings)
-            .HasForeignKey(b => b.EventId);
+            .HasForeignKey(b => b.EventId)
+            .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Booking>()
             .HasMany(b => b.Tickets)
             .WithOne(t => t.Booking)
-            .HasForeignKey(t => t.BookingId);
+            .HasForeignKey(t => t.BookingId)
+            .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Booking>()
             .HasOne(b => b.BookingPayment)
             .WithOne(p => p.Booking)
-            .HasForeignKey<BookingPayment>(p => p.BookingId);
+            .HasForeignKey<BookingPayment>(p => p.BookingId)
+            .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Booking>()
             .HasOne(b => b.Customer)
             .WithMany(c => c.Bookings)
             .HasForeignKey(b => b.CustomerId)
-            .OnDelete(DeleteBehavior.SetNull);
+            .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<EventReview>()
             .HasOne(r => r.Customer)
             .WithMany(c => c.EventReviews)
             .HasForeignKey(r => r.CustomerID)
-            .OnDelete(DeleteBehavior.SetNull);
+            .OnDelete(DeleteBehavior.Restrict);
 
             //User and Customer
             modelBuilder.Entity<User>()
@@ -238,12 +250,6 @@ namespace API.Data
             .HasForeignKey(u => u.CustomerID)
             .OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity<Address>()
-            .HasOne(a => a.Customer)
-            .WithMany(c => c.Addresses)
-            .HasForeignKey(a => a.CustomerID)
-            .OnDelete(DeleteBehavior.SetNull);
-
             //User and SuperUser
             modelBuilder.Entity<SuperUser>()
             .HasOne(su => su.User)
@@ -251,10 +257,66 @@ namespace API.Data
             .HasForeignKey(su => su.UserID)
             .OnDelete(DeleteBehavior.Cascade);
 
+            //Employee and SystemPrivilege
+            modelBuilder.Entity<Employee>()
+            .HasOne(e => e.SystemPrivilege)
+            .WithOne(sp => sp.Employee)
+            .HasForeignKey<Employee>(e => e.SystemPrivilegeID)
+            .OnDelete(DeleteBehavior.Restrict);
+
+            //SystemPrivelege and SuperUser
+            modelBuilder.Entity<SuperUser>()
+            .HasOne(su => su.SystemPrivilege)
+            .WithOne(sp => sp.SuperUser)
+            .HasForeignKey<SystemPrivilege>(sp => sp.SystemPrivilegeID)
+            .OnDelete(DeleteBehavior.Restrict);
+
+            //SuperUser and Employee
+            modelBuilder.Entity<Employee>()
+            .HasOne(e => e.SuperUser)
+            .WithMany(su => su.Employees)
+            .HasForeignKey(e => e.SuperUserID)
+            .OnDelete(DeleteBehavior.Restrict);
+
+            //SuperUser and Address
+            modelBuilder.Entity<SuperUser>()
+            .HasOne(s => s.Address)
+            .WithOne(a => a.SuperUser)
+            .HasForeignKey<Address>(a => a.SuperUserID);
+
+            //Address and Employee
             modelBuilder.Entity<Address>()
-            .HasMany(a => a.SuperUsers)
-            .WithOne(su => su.Address)
-            .HasForeignKey(su => su.AddressID);
+            .HasOne(a => a.Employee)
+            .WithOne(e => e.Address)
+            .HasForeignKey<Address>(a => a.EmployeeID)
+            .OnDelete(DeleteBehavior.Restrict);
+
+            //Address and Employee
+            modelBuilder.Entity<Address>()
+            .HasOne(a => a.Province)
+            .WithMany()
+            .HasForeignKey(a => a.ProvinceID)
+            .OnDelete(DeleteBehavior.Restrict);
+
+            //EbventLocation Address
+            modelBuilder.Entity<EventLocation>()
+            .HasOne(e => e.Address)
+            .WithOne(a => a.EventLocation)
+            .HasForeignKey<EventLocation>(e => e.AddressID)
+            .OnDelete(DeleteBehavior.Restrict);
+
+            //SuperUser and EventLocation
+            modelBuilder.Entity<SuperUser>()
+            .HasMany(su => su.EventLocations)
+            .WithOne(el => el.SuperUser)
+            .HasForeignKey(el => el.SuperUserID)
+            .OnDelete(DeleteBehavior.Restrict);
+
+            //Event and EarlyBird
+            modelBuilder.Entity<Event>()
+            .HasOne(e => e.EarlyBird)
+            .WithOne(eb => eb.Event)
+            .HasForeignKey<EarlyBird>(eb => eb.EventID);
 
             base.OnModelCreating(modelBuilder);
         }
@@ -271,6 +333,7 @@ namespace API.Data
         public DbSet<EventPrice> EventPrices { get; set; }
         public DbSet<EventType> EventTypes { get; set; }
         public DbSet<EventReview> EventReviews{ get; set; }
+        public DbSet<EarlyBird> EarlyBird { get; set; }
         public DbSet<FAQ> FAQs { get; set; }
         public DbSet<Inventory> Inventories { get; set; }
         public DbSet<Order> Orders { get; set; }
@@ -294,7 +357,6 @@ namespace API.Data
         public DbSet<VAT> VATs { get; set; }
         public DbSet<Varietal> Varietals { get; set; }
         public DbSet<Wine> Wines { get; set; }
-        public DbSet<WineDiscount> WineDiscounts { get; set; }
         public DbSet<Wishlist> Wishlists { get; set; }
         public DbSet<WishlistItem> WishlistItems { get; set; }
         public DbSet<WineType> WineTypes { get; set; }

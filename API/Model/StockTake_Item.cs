@@ -13,7 +13,9 @@ namespace API.Model
         public int StockTakeID { get; set; }
         public StockTake StockTake { get; set; }
 
-        //inventory ID ????
+        [ForeignKey("InventoryID")]
+        public int InventoryID { get; set; }
+        public Inventory Inventory { get; set; }
 
         public int QuantityCounted { get; set; }
     }

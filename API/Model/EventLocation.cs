@@ -16,6 +16,12 @@ namespace API.Model
 
         public DateTime Date_of_last_update { get; set; }
 
+        [ForeignKey("AddressID")]
+        public int AddressID { get; set; }
+        public Address Address { get; set; }
 
+        [ForeignKey("SuperUser")]
+        public int? SuperUserID { get; set; }
+        public SuperUser SuperUser { get; set; }
     }
 }

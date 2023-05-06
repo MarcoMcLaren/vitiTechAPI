@@ -21,8 +21,6 @@ namespace API.Model
         [MaxLength(255)]
         public string Description { get; set; }
 
-        public int EarlyBird { get; set; }
-
         [MaxLength(255)]
         public string Image_URL { get; set; }
 
@@ -36,8 +34,13 @@ namespace API.Model
         public int EventTypeID { get; set; }
         public EventType EventType { get; set; }
 
+
         [JsonIgnore]
         public List<Booking> Bookings { get; set; }
+
+        [ForeignKey("EarlyBirdID")]
+        public int? EarlyBirdID { get; set; }
+        public EarlyBird EarlyBird { get; set; }
 
     }
 }
