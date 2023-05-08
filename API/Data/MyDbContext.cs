@@ -16,7 +16,7 @@ namespace API.Data
         //Delete
         //.OnDelete(DeleteBehavior.Cascade);
 
-        //Test push
+        //INF 370 team git test
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
