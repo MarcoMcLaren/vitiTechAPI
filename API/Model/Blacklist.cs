@@ -9,5 +9,7 @@ namespace API.Model
 
         [MaxLength(255)]
         public string Reason { get; set; }
+
+        // HEHE REASON
     }
 }
